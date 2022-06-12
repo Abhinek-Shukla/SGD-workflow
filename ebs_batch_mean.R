@@ -16,8 +16,10 @@ ebs <- matrix(rep(0,nparm^2),nrow=nparm,ncol=nparm)
 ebs <- mcse.multi(sg_ct,size=bn)$cov
 print(ebs)
 add_trm <- numeric(nparm)
-add_trm <- (colSums(sg_ct[(an*bn+1):n,]-(n-an*bn)*tot_mean))
+add_trm <- (colSums(sg_ct[(an*bn+1):n,])-(n-an*bn)*tot_mean)
 
 ebs <- ebs + add_trm%*%t(add_trm)/n
+print("add_term")
+print(add_trm%*%t(add_trm)/n)
 return(ebs)
 }
