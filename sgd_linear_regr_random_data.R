@@ -1,5 +1,6 @@
 rm(list=ls())
 library(MASS)
+library(matrixcalc)
 source("grad_lin.R")
 source("ebs_batch_mean.R")
 source("ibs_jasa_mean.R")
@@ -54,7 +55,8 @@ for(cn in 1 : Rep){
  
   ibs_mean <- ibs_jasa_mean(sg_ct,alp)
   
-  
+  forb_ebs <- sqrt(sum((ebs_mean-diag(nparm))^2))
+  forb_ibs <- sqrt(sum((ibs_mean-diag(nparm))^2))
 }
 
 #Smart batching EBS
@@ -63,3 +65,6 @@ print(ebs_mean)
 #JASA Chen batching
 print(ibs_mean)
 
+
+print(forb_ebs)
+print(forb_ibs)
