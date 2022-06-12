@@ -2,9 +2,10 @@ rm(list=ls())
 library(MASS)
 source("grad_lin.R")
 source("ebs_batch_mean.R")
+source("ibs_jasa_mean.R")
 Rep <- 1
 #Sample Size
-n <- 5e5;
+n <- 5e4;
 
 #Iterations
 Iter <- n;
@@ -37,7 +38,6 @@ for(cn in 1 : Rep){
   x <- x%*%sqrt_sig
   #noisy Observed Data
   y <- x %*% parm + rnorm(n, mean = 0,sd = 1)
-  y <- mvrnorm(n,mu=rep(0,nparm),Sigma =diag(nparm) ) %*% parm + rnorm(n, mean = 0,sd = 1)
   #Learning Rate
   eta <- numeric(Iter)
   sg[1,] <- rep(0, nparm)
@@ -49,38 +49,10 @@ for(cn in 1 : Rep){
   }
   
   sg_ct <- sg[(cutf+1):Iter,]
-  
+
   ebs_mean <- ebs_batch_mean(sg_ct,alp)
-  # JASA Online BM Estimators
-  for(m in 1:1000){
-    
-    am[m] <- floor(m^(2/(1-alp)))
-    
-  }
-  am <- c(am[am <= Iter-cutf],Iter-cutf)
-  
-  ibs_jasa <- matrix(rep(0,nparm*(length(am)-1)),nrow=(length(am)-1),ncol=nparm)
-  tot_mean <- rep(0,nparm)
-  #Equal batch size smart batching (EBS)
-  for(k in 1 : (length(am)-1)){
-    strt_pt <- am[k]
-    end_pt <- am[k+1]-1
-    if(k==(length(am)-1)){  end_pt <- am[k+1]}
-    ibs_jasa[k,] <-  colSums(sg_ct[strt_pt : end_pt,])
-    tot_mean <- tot_mean + colSums(sg_ct[strt_pt:end_pt,])
-  }
-  tot_mean <- tot_mean/(Iter-cutf)
-  ibs_jasa_mean <- matrix(rep(0,nparm^2),nrow=nparm,ncol=nparm)
-  
-  for(k in 1 : (length(am)-1)){
-    
-    tmp_vl <- (ibs_jasa[k,]-(am[k+1]-am[k])*tot_mean)
-    if(k == (length(am) - 1)){   
-      tmp_vl <- (ibs_jasa[k,]-(am[k+1]-am[k]+1)*tot_mean)}
-    ibs_jasa_mean <- ibs_jasa_mean + tmp_vl%*%t(tmp_vl)
-    
-  }
-  ibs_jasa_mean <- ibs_jasa_mean/(Iter-cutf)
+ 
+  ibs_mean <- ibs_jasa_mean(sg_ct,alp)
   
   
 }
@@ -89,5 +61,5 @@ for(cn in 1 : Rep){
 print(ebs_mean)
 
 #JASA Chen batching
-print(ibs_jasa_mean)
+print(ibs_mean)
 
