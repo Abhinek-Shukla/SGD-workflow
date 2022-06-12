@@ -37,7 +37,7 @@ for(cn in 1 : Rep){
   x <- x%*%sqrt_sig
   #noisy Observed Data
   y <- x %*% parm + rnorm(n, mean = 0,sd = 1)
-  
+  y <- mvrnorm(n,mu=rep(0,nparm),Sigma =diag(nparm) ) %*% parm + rnorm(n, mean = 0,sd = 1)
   #Learning Rate
   eta <- numeric(Iter)
   sg[1,] <- rep(0, nparm)
@@ -90,3 +90,4 @@ print(ebs_mean)
 
 #JASA Chen batching
 print(ibs_jasa_mean)
+
