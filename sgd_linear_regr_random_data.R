@@ -9,14 +9,14 @@ source("sqrt_mat.R")
 Rep <- 100
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 5e5+cutf;
+n <- 5e4+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
 
 alp <- .51
 
-nparm <- 5
+nparm <- 50
 parm <- rep(5,nparm)
 
 am <- numeric(1000)
@@ -71,7 +71,7 @@ for(cn in 1 : Rep){
 #critical value calculation
 crt_val <- qchisq(qlev,df=nparm)
 
-cover_ebs[cn] <- as.numeric(n*t(asg-parm)%*%solve(ebs_mean)%*%(asg-parm)<=crt_val)
+cover_ebs[cn] <- as.numeric(n*t(asg-parm)%*%qr.solve(ebs_mean)%*%(asg-parm)<=crt_val)
 cover_ibs[cn] <- as.numeric(n*t(asg-parm)%*%solve(ibs_mean)%*%(asg-parm)<=crt_val)
 cover_orc[cn] <- as.numeric(n*t(asg-parm)%*%solve(sigm)%*%(asg-parm)<=crt_val)  
 
