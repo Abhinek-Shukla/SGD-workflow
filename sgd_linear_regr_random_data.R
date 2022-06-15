@@ -6,21 +6,21 @@ source("ebs_batch_mean.R")
 source("ibs_jasa_mean.R")
 source("sqrt_mat.R")
 
-Rep <- 1
+Rep <- 100
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 5e4+cutf;
+n <- 5e5+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
-Iter <- n;
+
 alp <- .51
 
-nparm <- 5
+nparm <- 10
 parm <- rep(5,nparm)
 
 am <- numeric(1000)
-
+Iter <- n;
 
 
 sg <- matrix(nrow = Iter, ncol = nparm);
@@ -36,7 +36,7 @@ volm_ebs <- volm_ibs <- numeric(Rep)
 cover_ebs <- cover_ibs <- cover_orc <- numeric(Rep)
 #1000  Replications to obtain stable mses
 for(cn in 1 : Rep){
-  
+  if(cn>=2){n <- n+cutf}
   #Data Generated 
   
   x <- matrix(rnorm(n*nparm),nrow=n,ncol=nparm)
@@ -69,7 +69,7 @@ for(cn in 1 : Rep){
   volm_ibs[cn] <- (det(ibs_mean))^(1/nparm)
   
 #critical value calculation
-crt_val <- qchisq(0.95,df=nparm)
+crt_val <- qchisq(qlev,df=nparm)
 
 cover_ebs[cn] <- as.numeric(n*t(asg-parm)%*%solve(ebs_mean)%*%(asg-parm)<=crt_val)
 cover_ibs[cn] <- as.numeric(n*t(asg-parm)%*%solve(ibs_mean)%*%(asg-parm)<=crt_val)
