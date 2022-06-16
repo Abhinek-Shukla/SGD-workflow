@@ -8,7 +8,6 @@ for(m in 1:1000){
   
 }
 am <- c(am[am < n],n)
-
 ibs_jasa <- matrix(rep(0,nparm*(length(am)-1)),nrow=(length(am)-1),ncol=nparm)
 tot_mean <- rep(0,nparm)
 #Equal batch size smart batching (EBS)
