@@ -9,14 +9,14 @@ source("sqrt_mat.R")
 Rep <- 100
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 5e4+cutf;
+n <- 1e5+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
 
 alp <- .51
 
-nparm <- 50
+nparm <- 5
 parm <- rep(5,nparm)
 
 am <- numeric(1000)
@@ -72,7 +72,7 @@ for(cn in 1 : Rep){
 crt_val <- qchisq(qlev,df=nparm)
 
 cover_ebs[cn] <- as.numeric(n*t(asg-parm)%*%qr.solve(ebs_mean)%*%(asg-parm)<=crt_val)
-cover_ibs[cn] <- as.numeric(n*t(asg-parm)%*%solve(ibs_mean)%*%(asg-parm)<=crt_val)
+cover_ibs[cn] <- as.numeric(n*t(asg-parm)%*%qr.solve(ibs_mean)%*%(asg-parm)<=crt_val)
 cover_orc[cn] <- as.numeric(n*t(asg-parm)%*%solve(sigm)%*%(asg-parm)<=crt_val)  
 
 }
