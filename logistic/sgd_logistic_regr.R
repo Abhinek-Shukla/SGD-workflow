@@ -63,7 +63,7 @@ for(cn in 1 : Rep){
   
   for(i in 2 : Iter){
     eta[i] <- i^(-alp)
-    sg[i,] <- sg[i-1,] - 8 * eta[i] * gradnt_log(y[i],x[i,],sg[i-1,])
+    sg[i,] <- sg[i-1,] - 0.5 * eta[i] * gradnt_log(y[i],x[i,],sg[i-1,])
     
   }
   
