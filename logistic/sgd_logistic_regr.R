@@ -10,14 +10,14 @@ source("sqrt_mat.R")
 Rep <- 1
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 5e5+cutf;
+n <- 5e4+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
 
 alp <- .505
 
-nparm <- 5
+nparm <- 2
 parm <- rep(5,nparm)
 
 am <- numeric(1000)
