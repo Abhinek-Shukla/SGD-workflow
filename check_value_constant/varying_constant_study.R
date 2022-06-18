@@ -1,8 +1,9 @@
 rm(list=ls())
+setwd("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/check_value_constant")
 source("ibs_lng.R")
 
 alp <- .51
-sq <- seq(5,20,by=5)
+sq <- seq(5,100,by=5)
 
 leng_ibs <- matrix(nrow=5,ncol=length(sq))
 leng_ebs <- matrix(nrow=5,ncol=length(sq))
