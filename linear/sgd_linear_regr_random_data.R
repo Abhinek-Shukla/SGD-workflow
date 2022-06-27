@@ -9,7 +9,7 @@ source("sqrt_mat.R")
 Rep <- 100
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 1e5+cutf;
+n <- 1e4+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
