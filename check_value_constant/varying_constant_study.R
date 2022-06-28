@@ -3,38 +3,155 @@ setwd("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/check_value_constant")
 source("ibs_lng.R")
 source("ebs_lng.R")
 alp <- .51
+cns_sq <- c(0.01,0.1,1,2,5)
+sq_n <- seq(1e4,1e6,by=5e3)
+leng_ebs <- matrix(nrow=5,ncol=length(sq_n))
+leng_ibs <- matrix(nrow=5,ncol=length(sq_n))
+
+
+for( k in 1:length(sq_n)){
+  n <- sq_n[k]
+  for (m in 1 : length(cns_sq)){
+ 
+  leng_ebs[m,k] <- ebs_lng(n,cns=cns_sq[m],alp,bet_typ=1)
+  nparm         <- leng_ebs[m,k]
+  leng_ibs[m,k] <- ibs_lng(nparm,cns=cns_sq[m],alp)
+}
+  
+}
+
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[1,],sampl_size_log10,type="l",ylim=c(3,12),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.01, beta type 1")
+lines(leng_ebs[1,],log10(leng_ibs[1,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[2,],sampl_size_log10,type="l",ylim=c(3,9),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.1, beta type 1")
+lines(leng_ebs[2,],log10(leng_ibs[2,]),col="green")
+
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[3,],sampl_size_log10,type="l",ylim=c(2,6.5),xlab="Dimension",ylab="Sample size on log10 scale",main="c=1, beta type 1")
+lines(leng_ebs[3,],log10(leng_ibs[3,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[4,],sampl_size_log10,type="l",ylim=c(1.5,6),xlab="Dimension",ylab="Sample size on log10 scale",main="c=2, beta type 1")
+lines(leng_ebs[4,],log10(leng_ibs[4,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[5,],sampl_size_log10,type="l",ylim=c(.5,6),xlab="Dimension",ylab="Sample size on log10 scale",main="c=5, beta type 1")
+lines(leng_ebs[5,],log10(leng_ibs[5,]),col="green")
+
+############################################################
+#New setup for beta
+sq_n <- seq(1e4,1e6,by=5e3)
+leng_ebs <- matrix(nrow=5,ncol=length(sq_n))
+leng_ibs <- matrix(nrow=5,ncol=length(sq_n))
+
+
+for( k in 1:length(sq_n)){
+  n <- sq_n[k]
+  for (m in 1 : length(cns_sq)){
+    
+    leng_ebs[m,k] <- ebs_lng(n,cns=cns_sq[m],alp,bet_typ=2)
+    nparm         <- leng_ebs[m,k]
+    leng_ibs[m,k] <- ibs_lng(nparm,cns=cns_sq[m],alp)
+  }
+  
+}
+
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[1,],sampl_size_log10,type="l",ylim=c(3,14),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.01, beta type 2")
+lines(leng_ebs[1,],log10(leng_ibs[1,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[2,],sampl_size_log10,type="l",ylim=c(3,11),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.1, beta type 2")
+lines(leng_ebs[2,],log10(leng_ibs[2,]),col="green")
+
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[3,],sampl_size_log10,type="l",ylim=c(3.5,8),xlab="Dimension",ylab="Sample size on log10 scale",main="c=1, beta type 2")
+lines(leng_ebs[3,],log10(leng_ibs[3,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[4,],sampl_size_log10,type="l",ylim=c(3.5,7),xlab="Dimension",ylab="Sample size on log10 scale",main="c=2, beta type 2")
+lines(leng_ebs[4,],log10(leng_ibs[4,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[5,],sampl_size_log10,type="l",ylim=c(1.5,6),xlab="Dimension",ylab="Sample size on log10 scale",main="c=5, beta type 2")
+lines(leng_ebs[5,],log10(leng_ibs[5,]),col="green")
+
+########################################################
 
 sq_n <- seq(1e3,1e6,by=5e3)
 leng_ebs <- matrix(nrow=5,ncol=length(sq_n))
-for( k in 1:length(sq_n)){
-  n <- sq_n[k]
-  leng_ebs[1,k] <- ebs_lng(n,cns=0.01,alp)
-  leng_ebs[2,k] <- ebs_lng(n,cns=0.1,alp)
-  leng_ebs[3,k] <- ebs_lng(n,cns=1,alp)
-  leng_ebs[4,k] <- ebs_lng(n,cns=2,alp)
-  leng_ebs[5,k] <- ebs_lng(n,cns=5,alp)
-
-  
-}
-
 leng_ibs <- matrix(nrow=5,ncol=length(sq_n))
 
+
 for( k in 1:length(sq_n)){
-  nparm <- leng_ebs[1,k]
-  leng_ibs[1,k] <- ibs_lng(nparm,cns=0.01,alp)
-  nparm <- leng_ebs[2,k]
-  leng_ibs[2,k] <- ibs_lng(nparm,cns=0.1,alp)
-  nparm <- leng_ebs[3,k]
-  leng_ibs[3,k] <- ibs_lng(nparm,cns=1,alp)
-  nparm <- leng_ebs[4,k]
-  leng_ibs[4,k] <- ibs_lng(nparm,cns=2,alp)
-  nparm <- leng_ebs[5,k]
-  leng_ibs[5,k] <- ibs_lng(nparm,cns=5,alp)
-  #Number of batches in IBS scheme
+  n <- sq_n[k]
+  for (m in 1 : length(cns_sq)){
+    
+    leng_ebs[m,k] <- ebs_lng(n,cns=cns_sq[m],alp,bet_typ=3)
+    nparm         <- leng_ebs[m,k]
+    leng_ibs[m,k] <- ibs_lng(nparm,cns=cns_sq[m],alp)
+  }
   
 }
 
 
-sampl_size_log <- log10(sq_n)
-plot(leng_ebs[1,],sampl_size_log,type="l")
-lines(eng_ebs[1,],log10(leng_ibs[1,]))
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[1,],sampl_size_log10,type="l",ylim=c(3,14),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.01, beta type 3")
+lines(leng_ebs[1,],log10(leng_ibs[1,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[2,],sampl_size_log10,type="l",ylim=c(3,11),xlab="Dimension",ylab="Sample size on log10 scale",main="c=0.1, beta type 3")
+lines(leng_ebs[2,],log10(leng_ibs[2,]),col="green")
+
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[3,],sampl_size_log10,type="l",ylim=c(3.,8.3),xlab="Dimension",ylab="Sample size on log10 scale",main="c=1, beta type 3")
+lines(leng_ebs[3,],log10(leng_ibs[3,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[4,],sampl_size_log10,type="l",ylim=c(3.,7.5),xlab="Dimension",ylab="Sample size on log10 scale",main="c=2, beta type 3")
+lines(leng_ebs[4,],log10(leng_ibs[4,]),col="green")
+
+
+
+sampl_size_log10 <- log10(sq_n)
+plot(leng_ebs[5,],sampl_size_log10,type="l",ylim=c(2.5,6),xlab="Dimension",ylab="Sample size on log10 scale",main="c=5, beta type 3")
+lines(leng_ebs[5,],log10(leng_ibs[5,]),col="green")
+
+
+
+
