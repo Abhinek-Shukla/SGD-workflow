@@ -6,5 +6,5 @@ ibs_lng <- function(dm,cns,alp){
     
   }
   am <- unique(am)
-  am[dm]+1
+  am[dm+1]
 }

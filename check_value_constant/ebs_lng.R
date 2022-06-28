@@ -9,5 +9,5 @@ two_seq <- 2^(seq(10:40))
 bn <- min(two_seq[two_seq >= cns*n^bet])
 #No. of batches
 an <- floor(n/bn)
-return(an)
+return(an-1)
 }
