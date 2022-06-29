@@ -1,5 +1,5 @@
 sqrt_mat <- function(sigm){
-  p <- nrow(sigm)
+  
 decomp_sigm<- svd(sigm)
 dig_sig <- decomp_sigm$d
 v_mat <- decomp_sigm$u
