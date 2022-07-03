@@ -1,8 +1,8 @@
 ebs_batch_mean <- function(sg_ct,alp){
   n <- nrow(sg_ct)#Number of SGD iterates
   nparm <- ncol(sg_ct)
-library(mcmcse)
-bet <- 0.5414 + 0.4669*alp - 0.30195/log10(n)
+library(mcmcse)#
+bet <-(1+alp)/2# 0.5414 + 0.4669*alp - 0.30195/log10(n)
 two_seq <- 2^(seq(10:40))
 #Equal Batch Size Configuration
 bn <- min(two_seq[two_seq >= n^bet])

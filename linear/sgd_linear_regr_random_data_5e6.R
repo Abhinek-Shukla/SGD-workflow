@@ -34,10 +34,11 @@ sqrt_sig <- sqrt_mat(sigm)
 forb_ibs <- volm_ibs <- cover_ibs <- forb_ibs_norm <- numeric(Rep)
 cover_orc<- numeric(Rep)
 
-volm_ebs <- forb_ebs <- forb_ebs_norm <- matrix(rep(0,9*Rep),nrow = Rep,ncol = 9)
-cover_ebs  <- matrix(rep(0,9*Rep),nrow = Rep,ncol = 9)
-
-cns = c(0.1,1,2)
+volm_ebs <- forb_ebs <- forb_ebs_norm <- matrix(rep(0,6*Rep),nrow = Rep,ncol = 6)
+cover_ebs  <- matrix(rep(0,6*Rep),nrow = Rep,ncol = 6)
+volm_ebs_ls <- forb_ebs_ls <- forb_ebs_norm_ls <- matrix(rep(0,6*Rep),nrow = Rep,ncol = 6)
+cover_ebs_ls  <- matrix(rep(0,6*Rep),nrow = Rep,ncol = 6)
+cns = c(0.1,1)
 #1000  Replications to obtain stable results
 for(cn in 1 : Rep){
   if(cn>=2){n <- n+cutf}
@@ -67,18 +68,26 @@ for(cn in 1 : Rep){
   forb_ibs[cn]  <- sqrt(sum((ibs_mean-sigm)^2))/sqrt(sum(sigm^2))
   forb_ibs_norm[cn] <- sqrt(sum((ibs_mean)^2))
   volm_ibs[cn]  <- (det(ibs_mean))^(1/nparm)
-  cover_ibs[cn] <- as.numeric(n*t(asg-parm)%*%qr.solve(ibs_mean)%*%(asg-parm)<=crt_val)
-  cover_orc[cn] <- as.numeric(n*t(asg-parm)%*%solve(sigm)%*%(asg-parm)<=crt_val)  
+  cover_ibs[cn] <- as.numeric(n*t(asg - parm)%*%qr.solve(ibs_mean)%*%(asg - parm) <= crt_val)
+  cover_orc[cn] <- as.numeric(n*t(asg - parm)%*%solve(sigm)%*%(asg - parm) <= crt_val)  
   count=1
   #Nine different settings of EBS, c=0.1,1,2
   for( mk in 1:length(cns)){
     for(bk in 1:3){
-      ebs_mean            <- ebs_batch_mean(sg_ct,alp,cns[mk],bk)
+      ebs_mean            <- ebs_batch_mean(sg_ct,alp,cns[mk],bk,1)
       forb_ebs_norm[cn,count] <- sqrt(sum((ebs_mean)^2))
       
       forb_ebs[cn,count]  <- sqrt(sum((ebs_mean-sigm)^2))/sqrt(sum(sigm^2))
       volm_ebs[cn,count]  <- (det(ebs_mean))^(1/nparm)
       cover_ebs[cn,count] <- as.numeric(n*t(asg-parm)%*%qr.solve(ebs_mean)%*%(asg-parm)<=crt_val)
+      
+      ebs_mean            <- ebs_batch_mean(sg_ct,alp,cns[mk],bk,2)
+      forb_ebs_norm_ls[cn,count] <- sqrt(sum((ebs_mean)^2))
+      
+      forb_ebs_ls[cn,count]  <- sqrt(sum((ebs_mean-sigm)^2))/sqrt(sum(sigm^2))
+      volm_ebs_ls[cn,count]  <- (det(ebs_mean))^(1/nparm)
+      cover_ebs_ls[cn,count] <- as.numeric(n*t(asg-parm)%*%qr.solve(ebs_mean)%*%(asg-parm)<=crt_val)
+      
       count=count+1           
     }
   }
@@ -86,8 +95,8 @@ for(cn in 1 : Rep){
   
 }
 
-save(forb_ibs,forb_ebs,file="forb_details_5e6_lin.RData")
-save(volm_ibs,volm_ebs,file="volm_details_5e6_lin.RData")
-save(cover_orc,cover_ibs,cover_ebs,file="cover_details_5e6_lin.RData")
-save(forb_ibs_norm,forb_ebs_norm,file="forb_norm_details_5e6_lin.RData")
+save(forb_ibs,forb_ebs,forb_ebs_ls,file="forb_details_5e6_lin.RData")
+save(volm_ibs,volm_ebs,volm_ebs_ls,file="volm_details_5e6_lin.RData")
+save(cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,file="cover_details_5e6_lin.RData")
+save(forb_ibs_norm,forb_ebs_norm,forb_ebs_ls,file="forb_norm_details_5e6_lin.RData")
 

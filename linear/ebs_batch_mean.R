@@ -1,4 +1,4 @@
-ebs_batch_mean <- function(sg_ct,alp,cns,bet_typ){
+ebs_batch_mean <- function(sg_ct,alp,cns,bet_typ,val_ue){
   n <- nrow(sg_ct)#Number of SGD iterates
   nparm <- ncol(sg_ct)
 library(mcmcse)
@@ -13,7 +13,7 @@ an <- floor(n/bn)
 tot_mean <- colMeans(sg_ct)
 ebs <- matrix(rep(0,nparm^2),nrow=nparm,ncol=nparm)
 
-ebs <- mcse.multi(sg_ct,size=bn,r=1)$cov
+ebs <- mcse.multi(sg_ct,size=bn,r=val_ue)$cov
 ebs <- ebs*(an-1)*bn/n
 
 add_trm <- numeric(nparm)
