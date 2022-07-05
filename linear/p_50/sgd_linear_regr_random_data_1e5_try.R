@@ -6,8 +6,8 @@ source("ebs_batch_mean.R")
 source("ibs_jasa_mean.R")
 source("sqrt_mat.R")
 
-Rep <- 1000
-cutf <- 10000 #Dropping initial Iterates of SGD
+Rep <- 10
+cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
 n <- 1e6+cutf;
 #Confidence level 
@@ -16,7 +16,7 @@ qlev <- 0.95
 
 alp <- .51
 
-nparm <- 5
+nparm <- 10
 parm <- rep(5,nparm)
 crt_val <- qchisq(qlev,df=nparm)
 am <- numeric(1000)
@@ -80,7 +80,7 @@ for(cn in 1 : Rep){
       forb_ebs[cn,count]  <- sqrt(sum((ebs_mean-sigm)^2))/sqrt(sum(sigm^2))
       volm_ebs[cn,count]  <- (det(ebs_mean))^(1/nparm)
       cover_ebs[cn,count] <- as.numeric(n*t(asg-parm)%*%qr.solve(ebs_mean)%*%(asg-parm)<=crt_val)
-      
+      print("without lugsail done")
       ebs_mean            <- ebs_batch_mean(sg_ct,alp,cns[mk],bk,2)
       forb_ebs_norm_ls[cn,count] <- sqrt(sum((ebs_mean)^2))
       
@@ -95,8 +95,8 @@ for(cn in 1 : Rep){
   
 }
 
-save(forb_ibs,forb_ebs,forb_ebs_ls,file="forb_details_1e6_lin.RData")
-save(volm_ibs,volm_ebs,volm_ebs_ls,file="volm_details_1e6_lin.RData")
-save(cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,file="cover_details_1e6_lin.RData")
-save(forb_ibs_norm,forb_ebs_norm,forb_ebs_norm_ls,file="forb_norm_details_1e6_lin.RData")
+save(forb_ibs,forb_ebs,forb_ebs_ls,file="forb_details_1e5_lin.RData")
+save(volm_ibs,volm_ebs,volm_ebs_ls,file="volm_details_1e5_lin.RData")
+save(cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,file="cover_details_1e5_lin.RData")
+save(forb_ibs_norm,forb_ebs_norm,forb_ebs_norm_ls,file="forb_norm_details_1e5_lin.RData")
 

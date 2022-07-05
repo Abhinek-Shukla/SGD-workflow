@@ -98,5 +98,5 @@ for(cn in 1 : Rep){
 save(forb_ibs,forb_ebs,forb_ebs_ls,file="forb_details_1e5_lin.RData")
 save(volm_ibs,volm_ebs,volm_ebs_ls,file="volm_details_1e5_lin.RData")
 save(cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,file="cover_details_1e5_lin.RData")
-save(forb_ibs_norm,forb_ebs_norm,forb_ebs_ls,file="forb_norm_details_1e5_lin.RData")
+save(forb_ibs_norm,forb_ebs_norm,forb_ebs_norm_ls,file="forb_norm_details_1e5_lin.RData")
 
