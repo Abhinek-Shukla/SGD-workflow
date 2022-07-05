@@ -9,14 +9,14 @@ source("sqrt_mat.R")
 Rep <- 10
 cutf <- 1000 #Dropping initial Iterates of SGD
 #Sample Size
-n <- 1e6+cutf;
+n <- 1e5+cutf;
 #Confidence level 
 qlev <- 0.95
 #Iterations
 
 alp <- .51
 
-nparm <- 10
+nparm <- 50
 parm <- rep(5,nparm)
 crt_val <- qchisq(qlev,df=nparm)
 am <- numeric(1000)

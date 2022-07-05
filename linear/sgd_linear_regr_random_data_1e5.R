@@ -17,7 +17,7 @@ qlev <- 0.95
 alp <- .51
 
 nparm <- 5
-parm <- rep(5,nparm)
+parm <- seq(1/nparm,1,length.out=nparm)
 crt_val <- qchisq(qlev,df=nparm)
 am <- numeric(1000)
 Iter <- n;
