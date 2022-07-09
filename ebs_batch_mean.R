@@ -1,9 +1,9 @@
 library(mcmcse)
 
-ebs_batch_mean <- function(sg_ct, alp, cns, bet_typ, val_ue)
+ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 {
-	n <- nrow(sg_ct)#Number of SGD iterates
-	nparm <- ncol(sg_ct)
+	n <- nrow(sgd)#Number of SGD iterates
+	nparm <- ncol(sgd)
 
 	if(bet_typ == 1){ bet <- (alp + 1)/2}
 	if(bet_typ == 2){ bet <- (2*alp + 1)/3}
@@ -16,12 +16,12 @@ ebs_batch_mean <- function(sg_ct, alp, cns, bet_typ, val_ue)
 	#No. of batches
 	an <- floor(n/bn)
 	
-	tot_mean <- colMeans(sg_ct)
+	tot_mean <- colMeans(sgd)
 
-	ebs <- mcse.multi(sg_ct, size = bn, r = val_ue)$cov
+	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov
 	ebs <- ebs*(an-1)*bn/n
 
-	add_trm <- (colSums(sg_ct[(an*bn+1):n, ]) - (n-an*bn)*tot_mean)
+	add_trm <- (colSums(sgd[(an*bn+1):n, ]) - (n-an*bn)*tot_mean)
 
 	ebs <- ebs + add_trm%*%t(add_trm)/n
 	return(ebs)

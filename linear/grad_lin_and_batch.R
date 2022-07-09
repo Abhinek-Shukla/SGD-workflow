@@ -1,0 +1,100 @@
+grad_lin <- function(sg,y,x){
+  (x %*% (sg) - y) %*% x
+} 
+
+##########################################################################################################
+
+
+linear_batch_fn <- function(max_sam = 1e5, burn_in = 1000, nparm = 5, Rep = 1,  eta_cns = 0.5, qlev = 0.95, alp = .51, cns = c(0.1, 1) ){
+  sigm = diag(nparm)
+  sam_siz <- c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7)
+  sam_siz <- sam_siz[sam_siz <= max_sam]
+  n <- sam_siz[length(sam_siz)] 
+  
+  
+  parm <- seq(1 / nparm, 1,length.out = nparm)
+  crt_val <- qchisq(qlev, df = nparm)
+  
+  
+  sg <- matrix(nrow = n + burn_in, ncol = nparm);
+  sg_ct <- matrix(nrow = n , ncol = nparm)
+  #Iterates stored
+  
+  # Sigma Matrix Stored with Square root
+  
+  sqrt_sig <- sqrt_mat(sigm)
+  
+  cns_ln <- 3*length(cns)# 3 multiplied due to three types of beta under study
+  forb_ibs <- volm_ibs <- cover_ibs <- forb_ibs_norm <- matrix(rep(0,length(sam_siz)*Rep), nrow = Rep, ncol = length(sam_siz))
+  cover_orc<- matrix(rep(0,length(sam_siz)*Rep),nrow = Rep, ncol = length(sam_siz))
+  
+  volm_ebs         <- forb_ebs <- forb_ebs_norm <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln))
+  cover_ebs        <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim=c(length(sam_siz), Rep, cns_ln))
+  volm_ebs_ls      <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim=c(length(sam_siz), Rep, cns_ln))
+  forb_ebs_norm_ls <- cover_ebs_ls  <- forb_ebs_ls <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim=c(length(sam_siz), Rep, cns_ln))
+  
+  
+  #1000  Replications to obtain stable results
+  for(cn in 1 : Rep){
+    
+    #Data Generated of Maximum Sample Size
+    
+    
+    x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
+    x <- x %*% sqrt_sig
+    #noisy Observed Data
+    y <- x %*% parm + rnorm((n + burn_in), mean = 0, sd = 1)
+    #Learning Rate
+    eta <- numeric(n + burn_in)
+    sg[1,] <- rep(0, nparm)
+    
+    for(i in 2 : (n + burn_in)){
+      
+      eta[i] <- i^( - alp)
+      sg[i,] <- sg[i - 1,] - eta_cns * eta[i] * grad_lin(sg[i - 1,], y[i], x[i,])
+      
+    }
+    
+    sg_ct <- sg[(burn_in + 1) : (n + burn_in),]
+    
+    for ( smpl in 1 : length(sam_siz)) { 
+      asg <- colMeans(  sg_ct[1:sam_siz[smpl],])
+      
+      #IBS and Oracle related coverages and volume
+      
+      ibs_mean     <- ibs_jasa_mean(sg_ct, alp)
+      forb_ibs[cn,smpl]  <- sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+      forb_ibs_norm[cn,smpl] <- sqrt(sum((ibs_mean) ^ 2))
+      volm_ibs[cn,smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
+      cover_ibs[cn,smpl] <- as.numeric(n * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
+      
+      
+      cover_orc[cn,smpl] <- as.numeric(n * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+      
+      count = 1
+      #Different settings of EBS, for values of cns and three types of beta
+      for( mk in 1 : length(cns)){ #Different values of constant cns
+        for(bt_typ in 1 : 3){
+          ebs_mean                 <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
+          forb_ebs_norm[smpl,cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+          
+          forb_ebs[smpl,cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+          volm_ebs[smpl,cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+          cover_ebs[smpl,cn, count] <- as.numeric(n * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          
+          ebs_mean                         <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
+          forb_ebs_norm_ls[smpl,cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+          
+          forb_ebs_ls[smpl,cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+          volm_ebs_ls[smpl,cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+          cover_ebs_ls[smpl,cn, count] <- as.numeric(n * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          
+          count = count + 1           
+        }
+      }
+      
+    }
+  }
+  fil_nam <- paste("linear/linear_indep_rep_",Rep,"_dim_",nparm,".RData",sep="")
+  save(forb_ibs_norm,forb_ebs_norm, forb_ebs_norm_ls,cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,forb_ibs,forb_ebs,forb_ebs_ls,file=fil_nam)
+}
