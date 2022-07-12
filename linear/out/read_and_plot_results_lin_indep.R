@@ -32,25 +32,81 @@ names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), express
 
 
 pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/cover_rates_linear.pdf",         # File name
-    width = 11, height = 12, # Width and height in inches
+    width = 11, height = 12,   # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
 
 plot(sq_n, cover_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.2,1))
+arrows(sq_n, cover_all[, 1], sq_n, cover_all[, 1] + sd_cover[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 1], sq_n, cover_all[, 1] - sd_cover[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, cover_all[, 2], sq_n, cover_all[, 2] + sd_cover[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 2], sq_n, cover_all[, 2] - sd_cover[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, cover_all[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 3], sq_n, cover_all[, 3] + sd_cover[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 3], sq_n, cover_all[, 3] - sd_cover[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 4], sq_n, cover_all[, 4] + sd_cover[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 4], sq_n, cover_all[, 4] - sd_cover[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, cover_all[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 5], sq_n, cover_all[, 5] + sd_cover[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 5], sq_n, cover_all[, 5] - sd_cover[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 6], sq_n, cover_all[, 6] + sd_cover[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 6], sq_n, cover_all[, 6] - sd_cover[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, cover_all[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 7], sq_n, cover_all[, 7] + sd_cover[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 7], sq_n, cover_all[, 7] - sd_cover[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, cover_all[, 8], sq_n, cover_all[, 8] + sd_cover[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 8], sq_n, cover_all[, 8] - sd_cover[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
 
 lines(sq_n, cover_all[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 9], sq_n, cover_all[, 9] + sd_cover[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 9], sq_n, cover_all[, 9] - sd_cover[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 10], sq_n, cover_all[, 10] + sd_cover[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 10], sq_n, cover_all[, 10] - sd_cover[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, cover_all[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 11], sq_n, cover_all[, 11] + sd_cover[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 11], sq_n, cover_all[, 11] - sd_cover[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, cover_all[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 12], sq_n, cover_all[, 12] + sd_cover[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 12], sq_n, cover_all[, 12] - sd_cover[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
 lines(sq_n, cover_all[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 13], sq_n, cover_all[, 13] + sd_cover[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 13], sq_n, cover_all[, 13] - sd_cover[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
 lines(sq_n, cover_all[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, cover_all[, 14], sq_n, cover_all[, 14] + sd_cover[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, cover_all[, 14], sq_n, cover_all[, 14] - sd_cover[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
 
 legend("bottom", legend = names_var,
        col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
@@ -92,20 +148,78 @@ pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/volume_linear.pd
     colormodel = "cmyk")          # Paper size
 
 plot(sq_n, volm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.1,1))
+arrows(sq_n, volm_all[, 1], sq_n, volm_all[, 1] + sd_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 1], sq_n, volm_all[, 1] - sd_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, volm_all[, 2], sq_n, volm_all[, 2] + sd_volm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 2], sq_n, volm_all[, 2] - sd_volm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 3], sq_n, volm_all[, 3] + sd_volm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 3], sq_n, volm_all[, 3] - sd_volm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 4], sq_n, volm_all[, 4] + sd_volm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 4], sq_n, volm_all[, 4] - sd_volm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 5], sq_n, volm_all[, 5] + sd_volm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 5], sq_n, volm_all[, 5] - sd_volm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 6], sq_n, volm_all[, 6] + sd_volm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 6], sq_n, volm_all[, 6] - sd_volm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 7], sq_n, volm_all[, 7] + sd_volm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 7], sq_n, volm_all[, 7] - sd_volm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, volm_all[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, volm_all[, 8], sq_n, volm_all[, 8] + sd_volm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 8], sq_n, volm_all[, 8] - sd_volm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
 
 lines(sq_n, volm_all[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 9], sq_n, volm_all[, 9] + sd_volm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 9], sq_n, volm_all[, 9] - sd_volm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 10], sq_n, volm_all[, 10] + sd_volm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 10], sq_n, volm_all[, 10] - sd_volm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 11], sq_n, volm_all[, 11] + sd_volm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 11], sq_n, volm_all[, 11] - sd_volm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 12], sq_n, volm_all[, 12] + sd_volm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 12], sq_n, volm_all[, 12] - sd_volm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 13], sq_n, volm_all[, 13] + sd_volm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 13], sq_n, volm_all[, 13] - sd_volm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, volm_all[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, volm_all[, 14], sq_n, volm_all[, 14] + sd_volm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, volm_all[, 14], sq_n, volm_all[, 14] - sd_volm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
+
 
 legend("bottom", legend = names_var,
        col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
@@ -145,20 +259,77 @@ pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/relative_frobeni
     colormodel = "cmyk")          # Paper size
 
 plot(sq_n, forb_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(-0.1,0.8))
+arrows(sq_n, forb_all[, 1], sq_n, forb_all[, 1] + sd_forb[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 1], sq_n, forb_all[, 1] - sd_forb[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, forb_all[, 2], sq_n, forb_all[, 2] + sd_forb[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 2], sq_n, forb_all[, 2] - sd_forb[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 3], sq_n, forb_all[, 3] + sd_forb[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 3], sq_n, forb_all[, 3] - sd_forb[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 4], sq_n, forb_all[, 4] + sd_forb[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 4], sq_n, forb_all[, 4] - sd_forb[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 5], sq_n, forb_all[, 5] + sd_forb[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 5], sq_n, forb_all[, 5] - sd_forb[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 6], sq_n, forb_all[, 6] + sd_forb[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 6], sq_n, forb_all[, 6] - sd_forb[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 7], sq_n, forb_all[, 7] + sd_forb[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 7], sq_n, forb_all[, 7] - sd_forb[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, forb_all[, 8], sq_n, forb_all[, 8] + sd_forb[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 8], sq_n, forb_all[, 8] - sd_forb[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
 
 lines(sq_n, forb_all[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 9], sq_n, forb_all[, 9] + sd_forb[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 9], sq_n, forb_all[, 9] - sd_forb[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, forb_all[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 10], sq_n, forb_all[, 10] + sd_forb[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 10], sq_n, forb_all[, 10] - sd_forb[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 11], sq_n, forb_all[, 11] + sd_forb[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 11], sq_n, forb_all[, 11] - sd_forb[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 12], sq_n, forb_all[, 12] + sd_forb[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 12], sq_n, forb_all[, 12] - sd_forb[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
+
 lines(sq_n, forb_all[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 13], sq_n, forb_all[, 13] + sd_forb[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 13], sq_n, forb_all[, 13] - sd_forb[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_all[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, forb_all[, 14], sq_n, forb_all[, 14] + sd_forb[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, forb_all[, 14], sq_n, forb_all[, 14] - sd_forb[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
 
 legend("bottom", legend = names_var,
        col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
@@ -202,20 +373,76 @@ pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/self_frobenius.p
     colormodel = "cmyk")          # Paper size
 
 plot(sq_n, forb_norm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.3,2.7))
+arrows(sq_n, forb_norm_all[, 1], sq_n, forb_norm_all[, 1] + sd_forb_norm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 1], sq_n, forb_norm_all[, 1] - sd_forb_norm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, forb_norm_all[, 2], sq_n, forb_norm_all[, 2] + sd_forb_norm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 2], sq_n, forb_norm_all[, 2] - sd_forb_norm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 3], sq_n, forb_norm_all[, 3] + sd_forb_norm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 3], sq_n, forb_norm_all[, 3] - sd_forb_norm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 4], sq_n, forb_norm_all[, 4] + sd_forb_norm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 4], sq_n, forb_norm_all[, 4] - sd_forb_norm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 5], sq_n, forb_norm_all[, 5] + sd_forb_norm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 5], sq_n, forb_norm_all[, 5] - sd_forb_norm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 6], sq_n, forb_norm_all[, 6] + sd_forb_norm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 6], sq_n, forb_norm_all[, 6] - sd_forb_norm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 7], sq_n, forb_norm_all[, 7] + sd_forb_norm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 7], sq_n, forb_norm_all[, 7] - sd_forb_norm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, forb_norm_all[, 8], sq_n, forb_norm_all[, 8] + sd_forb_norm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 8], sq_n, forb_norm_all[, 8] - sd_forb_norm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
 
 lines(sq_n, forb_norm_all[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 9], sq_n, forb_norm_all[, 9] + sd_forb_norm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 9], sq_n, forb_norm_all[, 9] - sd_forb_norm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 10], sq_n, forb_norm_all[, 10] + sd_forb_norm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 10], sq_n, forb_norm_all[, 10] - sd_forb_norm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 11], sq_n, forb_norm_all[, 11] + sd_forb_norm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 11], sq_n, forb_norm_all[, 11] - sd_forb_norm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 12], sq_n, forb_norm_all[, 12] + sd_forb_norm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 12], sq_n, forb_norm_all[, 12] - sd_forb_norm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 13], sq_n, forb_norm_all[, 13] + sd_forb_norm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 13], sq_n, forb_norm_all[, 13] - sd_forb_norm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
 lines(sq_n, forb_norm_all[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, forb_norm_all[, 14], sq_n, forb_norm_all[, 14] + sd_forb_norm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, forb_norm_all[, 14], sq_n, forb_norm_all[, 14] - sd_forb_norm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
 
 legend("bottom", legend = names_var,
        col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
