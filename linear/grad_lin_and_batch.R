@@ -79,10 +79,10 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
       forb_ibs[cn,smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
       forb_ibs_norm[cn,smpl] <- norm(ibs_mean, "F")
       volm_ibs[cn,smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
-      cover_ibs[cn,smpl] <- as.numeric(n * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
+      cover_ibs[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
       
       
-      cover_orc[cn,smpl] <- as.numeric(n * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+      cover_orc[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
       
       count = 1
       #Different settings of EBS, for values of cns and three types of beta
@@ -93,14 +93,14 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
           
           forb_ebs[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
           volm_ebs[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-          cover_ebs[smpl, cn, count] <- as.numeric(n * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           
           ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
           forb_ebs_norm_ls[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
           
           forb_ebs_ls[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
           volm_ebs_ls[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-          cover_ebs_ls[smpl, cn, count] <- as.numeric(n * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           
           count = count + 1           
         }

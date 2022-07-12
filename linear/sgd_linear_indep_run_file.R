@@ -9,7 +9,7 @@ source("./../ebs_batch_mean.R")
 source("./../ibs_jasa_mean.R")
 source("./../sqrt_mat.R")
 
-max_sam <- 1e5
+max_sam <- 1e6
 nparm <- 5
 linear_batch_fn(max_sam = max_sam, nparm = nparm, Rep = 20, ncores_par = 30)#max(detectCores() - 5, 1)
 
