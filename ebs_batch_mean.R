@@ -19,10 +19,13 @@ ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 	tot_mean <- colMeans(sgd)
 
 	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov
-	ebs <- ebs*(an-1)*bn/n
 
-	add_trm <- (colSums(sgd[(an*bn+1):n, ]) - (n-an*bn)*tot_mean)
 
-	ebs <- ebs + add_trm%*%t(add_trm)/n
+if(an * bn < n)	{
+  ebs <- ebs*(an-1)*bn/n
+  add_trm <- (colSums(sgd[(an * bn + 1) :n, ]) - (n - an * bn) * tot_mean)
+
+	ebs <- ebs + add_trm %*% t(add_trm)/n
+}
 	return(ebs)
 }

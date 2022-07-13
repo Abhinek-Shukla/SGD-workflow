@@ -1,16 +1,20 @@
-linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns = c(0.1, 1), ncores_par = 3, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000){
-  grad_lin <- function(sg,y,x){
-    (x %*% (sg) - y) %*% x
-  } 
-  
-  ##########################################################################################################
-  comb <- function(x, ...) {
-    lapply(seq_along(x),
-           function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
-  }
-  
-  
+grad_lin <- function(sg,y,x){
+  (x %*% (sg) - y) %*% x
+} 
+
+##########################################################################################################
+comb <- function(x, ...) {
+  lapply(seq_along(x),
+         function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
+}
+
+
+
+linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns = c(0.1, 1), ncores_par = 3, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, nam_matrix = "indep"){
+ 
+
    sigm <- qr.solve(A) 
+ 
   sam_siz <- sam_siz[sam_siz <= max_sam]
   n <- sam_siz[length(sam_siz)] 
   
@@ -26,7 +30,7 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
   # Sigma Matrix Stored with Square root
   
   sqrt_sig <- sqrt_mat(A)
-  
+
   cns_ln <- 3*length(cns)# 3 multiplied due to three types of beta under study
   forb_ibs <- volm_ibs <- cover_ibs <- forb_ibs_norm <- matrix(rep(0,length(sam_siz)*Rep), nrow = Rep, ncol = length(sam_siz), dimnames = list( 1 : Rep, sam_siz))
   cover_orc<- matrix(rep(0,length(sam_siz)*Rep),nrow = Rep, ncol = length(sam_siz), dimnames = list( 1 : Rep, sam_siz))
@@ -45,7 +49,7 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
   
   
   #1000  Replications to obtain stable results under Parallel Setting
-    final_values <- foreach(cn = 1 : Rep, .combine = "comb", .packages = c("MASS","mcmcse"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat'), .multicombine=TRUE,
+    final_values <- foreach(cn = 1 : Rep, .combine = "comb", .packages = c("MASS","mcmcse"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat', 'grad_lin'), .multicombine=TRUE,
                             .init=list(list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list() )) %dopar% {
     
     #Data Generated of Maximum Sample Size
@@ -72,10 +76,11 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
     { 
       sg_ct <- sg_ct_full[1:sam_siz[smpl], ]
       asg <- colMeans(sg_ct)
-      
+     
       #IBS and Oracle related coverages and volume
       
       ibs_mean     <- ibs_jasa_mean(sg_ct, alp)
+      #print((ibs_mean))
       forb_ibs[cn,smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
       forb_ibs_norm[cn,smpl] <- norm(ibs_mean, "F")
       volm_ibs[cn,smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
@@ -130,6 +135,6 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
   
   
   
-  fil_nam <- paste("out/linear_indep_n_",max_sam,"_dim_",nparm,".RData",sep="")
+  fil_nam <- paste("out/linear_", nam_matrix, "_n_",max_sam,"_dim_",nparm,".RData",sep="")
   save(forb_ibs_norm,forb_ebs_norm, forb_ebs_norm_ls,cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,forb_ibs,forb_ebs,forb_ebs_ls,file=fil_nam)
 }

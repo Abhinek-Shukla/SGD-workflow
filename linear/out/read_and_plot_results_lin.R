@@ -5,7 +5,7 @@ volm_all <- sd_volm <- matrix(nrow = length(sq_n), ncol = 14)
 forb_all <- sd_forb <- matrix(nrow = length(sq_n), ncol = 14)
 sd_cover <- sd_forb_norm <- matrix(nrow = length(sq_n), ncol = 14)
 
-load("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/linear_indep_n_1e+07_dim_5.RData")
+load("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/linear_toep_n_1e+07_dim_5.RData")
 
 ##### COVERAGE RATES
 for(n in 1:length(sq_n)){
@@ -31,12 +31,12 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/cover_rates_linear.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/cover_rates_linear_toep.pdf",         # File name
     width = 11, height = 12,   # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
 
-plot(sq_n, cover_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.2,1))
+plot(sq_n, cover_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.06,1))
 arrows(sq_n, cover_all[, 1], sq_n, cover_all[, 1] + sd_cover[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 arrows(sq_n, cover_all[, 1], sq_n, cover_all[, 1] - sd_cover[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 
@@ -142,12 +142,12 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/volume_linear.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/volume_linear_toep.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
 
-plot(sq_n, volm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.1,1))
+plot(sq_n, volm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.1,1.35))
 arrows(sq_n, volm_all[, 1], sq_n, volm_all[, 1] + sd_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 arrows(sq_n, volm_all[, 1], sq_n, volm_all[, 1] - sd_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 
@@ -253,12 +253,12 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/relative_frobenius.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/relative_frobenius_toep.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
 
-plot(sq_n, forb_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(-0.1,0.8))
+plot(sq_n, forb_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(-0.1,0.9))
 arrows(sq_n, forb_all[, 1], sq_n, forb_all[, 1] + sd_forb[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 arrows(sq_n, forb_all[, 1], sq_n, forb_all[, 1] - sd_forb[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 
@@ -367,12 +367,12 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/self_frobenius.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/self_frobenius_toep.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
 
-plot(sq_n, forb_norm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.3,2.7))
+plot(sq_n, forb_norm_all[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = c(0.2,4.6))
 arrows(sq_n, forb_norm_all[, 1], sq_n, forb_norm_all[, 1] + sd_forb_norm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 arrows(sq_n, forb_norm_all[, 1], sq_n, forb_norm_all[, 1] - sd_forb_norm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
 
