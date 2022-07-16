@@ -1,11 +1,8 @@
 ibs_lng <- function(n,cns,alp){
   am <- numeric(1000)
-  for(m in 1:10000){
-    
-    am[m] <- floor(cns*m^(2/(1-alp)))
-    
-  }
-  am <- am[am<n]
+  # JASA Online BM Estimators
+  am <- ceiling( cns*(1:1e3)^(2/(1-alp)))
+  am <- c(am[am < n], (n+1))
   am <- unique(am)
   length(am)
 }

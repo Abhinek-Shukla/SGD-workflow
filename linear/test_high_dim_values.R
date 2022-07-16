@@ -22,16 +22,16 @@ comb <- function(x, ...) {
 }
 
 
-  Rep = 1
+  Rep = 20
   nparm = 20
   A = diag(nparm)
-  cns = c(0.1)
+  cns = c(0.05) # 0.05 for fifty dimension value
   ncores_par = 1
-  eta_cns = 0.5
-  sam_siz = 1e5
+  eta_cns = 1
+  sam_siz = 5e5
   qlev = 0.95
   alp = .51
-  burn_in = 1000
+  burn_in = 10000
 sigm <- qr.solve(A) 
 
 n <- sam_siz
@@ -59,8 +59,8 @@ volm_ebs_ls      <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim=c(length(s
 forb_ebs_norm_ls <- cover_ebs_ls  <- forb_ebs_ls <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim=c(length(sam_siz), Rep, cns_ln), dimnames = list(sam_siz, 1:Rep, 1:cns_ln))
 
                           #Data Generated of Maximum Sample Size
-                          
-                          cn <- 1
+               for( cn in 1 : Rep ){           
+                      
                           x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
                           x <- x %*% sqrt_sig
                           #noisy Observed Data
@@ -78,40 +78,39 @@ forb_ebs_norm_ls <- cover_ebs_ls  <- forb_ebs_ls <- array(rep(0, cns_ln * Rep * 
                           
                           sg_ct_full <- sg[(burn_in + 1) : (n + burn_in),]
                           
-                          for ( smpl in 1 : 1) 
-                          { 
-                            sg_ct <- sg_ct_full[1:sam_siz[smpl], ]
+                         
+                            sg_ct <- sg_ct_full[1:sam_siz, ]
                             asg <- colMeans(sg_ct)
-                            
+                            #plot.ts(sg_ct[,1:2])
                             #IBS and Oracle related coverages and volume
                             
-                            ibs_mean     <- ibs_jasa_mean(sg_ct, alp)
+                            ibs_mean     <- ibs_jasa_mean(sg_ct, alp, cns = 0.0005 )
                             #print((ibs_mean))
-                            forb_ibs[cn,smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-                            forb_ibs_norm[cn,smpl] <- norm(ibs_mean, "F")
-                            volm_ibs[cn,smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
-                            cover_ibs[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
+                            forb_ibs[cn,1]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+                            forb_ibs_norm[cn,1] <- norm(ibs_mean, "F")
+                            volm_ibs[cn,1]  <- (det(ibs_mean)) ^ (1 / nparm)
+                            cover_ibs[cn,1] <- as.numeric(sam_siz  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
                             
                             
-                            cover_orc[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+                            cover_orc[cn,1] <- as.numeric(sam_siz  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
                             
                             count = 1
                             #Different settings of EBS, for values of cns and three types of beta
                             for( mk in 1 : length(cns)){ #Different values of constant cns
                               for(bt_typ in 1 : 3){
                                 ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
-                                forb_ebs_norm[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+                                forb_ebs_norm[1, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
                                 
-                                forb_ebs[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-                                volm_ebs[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-                                cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+                                forb_ebs[1, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+                                volm_ebs[1, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+                                cover_ebs[1, cn, count] <- as.numeric(sam_siz  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
                                 
                                 ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
-                                forb_ebs_norm_ls[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+                                forb_ebs_norm_ls[1, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
                                 
-                                forb_ebs_ls[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-                                volm_ebs_ls[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-                                cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+                                forb_ebs_ls[1, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+                                volm_ebs_ls[1, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+                                cover_ebs_ls[1, cn, count] <- as.numeric(sam_siz  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
                                 
                                 count = count + 1           
                               }
@@ -125,5 +124,6 @@ print(cover_orc)
 print(cover_ibs)
 print(cover_ebs)
 print(cover_ebs_ls)
+print(cover_orc)
 #fil_nam <- paste("out/linear_", nam_matrix, "_n_",max_sam,"_dim_",nparm,".RData",sep="")
 #save(forb_ibs_norm,forb_ebs_norm, forb_ebs_norm_ls,cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,forb_ibs,forb_ebs,forb_ebs_ls,file=fil_nam)

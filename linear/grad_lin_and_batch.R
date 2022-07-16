@@ -10,7 +10,7 @@ comb <- function(x, ...) {
 
 
 
-linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns = c(0.1, 1), ncores_par = 3, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, nam_matrix = "indep"){
+linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns = c(0.1, 1), ncores_par = 1, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, nam_matrix = "indep", cns1 = 1){
  
 
    sigm <- qr.solve(A) 
@@ -79,7 +79,7 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
      
       #IBS and Oracle related coverages and volume
       
-      ibs_mean     <- ibs_jasa_mean(sg_ct, alp)
+      ibs_mean     <- ibs_jasa_mean(sg_ct, alp, cns = cns1)
       #print((ibs_mean))
       forb_ibs[cn,smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
       forb_ibs_norm[cn,smpl] <- norm(ibs_mean, "F")
