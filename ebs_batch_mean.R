@@ -15,7 +15,7 @@ ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 	bn <- min(two_seq[two_seq >= cns*n^bet])
 	#No. of batches
 	an <- floor(n/bn)
-	
+
 	tot_mean <- colMeans(sgd)
 
 	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov

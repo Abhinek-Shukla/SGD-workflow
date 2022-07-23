@@ -20,14 +20,9 @@ log_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns
   n <- sam_siz[length(sam_siz)] 
   
   parm <- seq(1 / nparm, 1, length.out = nparm)
-  
-  sigm_inv <- matrix(rep(0,nparm^2),nrow = nparm, ncol = nparm)
-  x1 <- mvrnorm(niter, mu = rep(0, nparm), Sigma = A)
-  
-  for ( rp in 1:niter){
-    tmp2 <- (c((1 + exp(t(x1[rp,]) %*% parm))*(1 + exp(-t(x1[rp,]) %*% parm))*niter))
-    sigm_inv <- sigm_inv + x1[rp,] %*% t(x1[rp,]) / tmp2
-  }
+  load("out/sigm_inv_logist.RData")
+
+sigm_inv <- get(paste("sigm_inv_",nam_matrix,"_nparm_", nparm, sep= ""))
   
   sigm <- qr.solve(sigm_inv)
   

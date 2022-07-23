@@ -18,7 +18,7 @@ return(sigm_inv)
 
 }
 
-sigm_inv_indp_nparm_5 <- var_covar_matrix_fn(nparm = 5)
+sigm_inv_indep_nparm_5 <- var_covar_matrix_fn(nparm = 5)
 
 
 r <- 0.5
@@ -50,7 +50,7 @@ sigm_inv_toep_nparm_5 <- var_covar_matrix_fn(nparm = 5, A = toep_mat[1 : 5, 1 : 
 
 
 
-sigm_inv_indp_nparm_20 <- var_covar_matrix_fn(nparm = 20)
+sigm_inv_indep_nparm_20 <- var_covar_matrix_fn(nparm = 20)
 sigm_inv_equiv_nparm_20 <- var_covar_matrix_fn(nparm = 20, A = equiv_mat)
 sigm_inv_toep_nparm_20 <- var_covar_matrix_fn(nparm = 20, A = toep_mat)
-save(sigm_inv_indp_nparm_5, sigm_inv_equiv_nparm_5, sigm_inv_toep_nparm_5, sigm_inv_indp_nparm_20, sigm_inv_equiv_nparm_20,  sigm_inv_toep_nparm_20,  file = "sigm_inv_logist.RData" )
+save(sigm_inv_indep_nparm_5, sigm_inv_equiv_nparm_5, sigm_inv_toep_nparm_5, sigm_inv_indep_nparm_20, sigm_inv_equiv_nparm_20,  sigm_inv_toep_nparm_20,  file = "out/sigm_inv_logist.RData" )

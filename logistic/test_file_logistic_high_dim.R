@@ -42,13 +42,9 @@ n <- sam_siz
 
 parm <- seq(1 / nparm, 1, length.out = nparm)
 
-sigm_inv <- matrix(rep(0,nparm^2),nrow = nparm, ncol = nparm)
-x1 <- mvrnorm(niter, mu = rep(0, nparm), Sigma = A)
+load("out/sigm_inv_logist.RData")
 
-for ( rp in 1:niter){
-  tmp2 <- (c((1 + exp(t(x1[rp,]) %*% parm))*(1 + exp(-t(x1[rp,]) %*% parm))*niter))
-  sigm_inv <- sigm_inv + x1[rp,] %*% t(x1[rp,]) / tmp2
-}
+sigm_inv <- get(paste("sigm_inv_indep_nparm_", nparm, sep= ""))
 
 sigm <- qr.solve(sigm_inv)
 
@@ -99,7 +95,7 @@ for( cn in 1 : Rep ){
   
   #Oracle coverage
   cover_orc[cn,1] <- as.numeric(sam_siz  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
-  print(as.numeric(sam_siz  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val))
+  #print(as.numeric(sam_siz  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val))
   
   
   #IBS  related coverages and volume
@@ -114,6 +110,10 @@ for( cn in 1 : Rep ){
   
   
   count = 1
+  n_batch <- 
+    siz_batch <- 
+    tmp1 <- nparm*(n_batch - 1)/(n_batch*(n_batch - nparm)*siz_batch)
+  crt_val_dng <- 
   #Different settings of EBS, for values of cns and three types of beta
   for( mk in 1 : length(cns)){ #Different values of constant cns
     for(bt_typ in 1 : 3){
@@ -130,7 +130,7 @@ for( cn in 1 : Rep ){
       forb_ebs_ls[1, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
       volm_ebs_ls[1, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
       cover_ebs_ls[1, cn, count] <- as.numeric(sam_siz  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
-      print(sam_siz  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm))
+    #  print(sam_siz  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm))
       count = count + 1           
     }
   }
@@ -152,7 +152,7 @@ for (k in 1: (length(cns)*3))
 }
 m_cover_orc <- mean(cover_orc)
 
-save(m_cover_ebs, m_cover_ibs, m_cover_orc, m_cover_ebs_ls, file = paste("out/logistic_",n, "sam", Rep, "Reps.RData", sep =))
+save(m_cover_ebs, m_cover_ibs, m_cover_orc, m_cover_ebs_ls, file = paste("out/logistic_high_",n, "sam", Rep, "Reps.RData", sep =""))
 
 #fil_nam <- paste("out/linear_", nam_matrix, "_n_",max_sam,"_dim_",nparm,".RData",sep="")
 #save(forb_ibs_norm,forb_ebs_norm, forb_ebs_norm_ls,cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,forb_ibs,forb_ebs,forb_ebs_ls,file=fil_nam)
