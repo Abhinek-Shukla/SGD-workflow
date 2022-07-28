@@ -75,7 +75,7 @@ log_batch_fn <- function(max_sam = 1e5, an = 100, Rep = 1, nparm = 5, A = diag(n
     for ( smpl in 1 : length(sam_siz)) 
     {
       
-      print(sam_siz[smpl])
+      
       sg_ct <- sg_ct_full[1 : sam_siz[smpl], ]
       asg <- colMeans(sg_ct)
       

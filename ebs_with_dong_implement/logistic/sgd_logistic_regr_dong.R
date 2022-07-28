@@ -10,7 +10,7 @@ source("./../ebs_batch_mean_dong.R")
 source("./../sqrt_mat.R")
 
 max_sam <- 5e5
-nparm <- 20
+nparm <- 5
 if(nparm < 10){ an = 20}
 if(nparm > 10){an = nparm + 8}
 

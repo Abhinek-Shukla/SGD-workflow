@@ -4,7 +4,7 @@ library(MASS)
 library(doParallel)
 library(foreach)
 library(mcmcse)
-
+source("./../opt_bet_fn.R")
 source("grad_lin_and_batch.R")
 source("./../ebs_batch_mean.R")
 source("./../ibs_jasa_mean.R")
