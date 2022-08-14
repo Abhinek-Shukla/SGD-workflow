@@ -13,57 +13,50 @@ source("./../sqrt_mat.R")
 max_sam <- 1e5
 nparm <- 20
 
-linear_batch_fn(max_sam = max_sam, nparm = nparm, Rep = 2, ncores_par = 2, nam_matrix = "indep", cns = c(0.001, 0.01))#max(detectCores() - 5, 1)
-
-#foo <- paste("out/linear_", nam_matrix,"_n_",max_sam,"_dim_",nparm,".RData",sep="")
-#load(foo)
+#Identity variance-covaiance matrix case
+linear_batch_fn(max_sam = max_sam, nparm = nparm, Rep = 2, ncores_par = 2, nam_matrix = "indep", cns = c(0.001, 0.01))
 
 
 
 
-
-
-
-
-
-
+#Toeplitz and Equivariance-covariance matrices definitions
 
 r <- 0.5
 toep_mat <- equiv_mat <- matrix(nrow = nparm, ncol = nparm)
 
-for( i in 1 : nparm){
+for( i in 1 : nparm)
+  {
   
-  for(j in 1 : nparm){
+  for(j in 1 : nparm)
+    {
     
     toep_mat[i,j] <- r^(abs(i-j))
     
     
-    if(i == j ){
+    if(i == j )
+      {
       
       equiv_mat[i, j] <- 1
       
-    }else{ 
+      }else
+       { 
       
-      equiv_mat[i, j] <- r 
+       equiv_mat[i, j] <- r 
       
+       }
     }
-  }
   
-}
+  }
 
 
 
-
-linear_batch_fn(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = 30, ncores_par = 15, nam_matrix = "toep")#max(detectCores() - 5, 1)
-
-#foo <- paste("out/linear_", nam_matrix,"_n_",max_sam,"_dim_",nparm,".RData",sep="")
-#load(foo)
+#Toeplitz variance-covaiance matrix results
+linear_batch_fn(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = 30, ncores_par = 15, nam_matrix = "toep")
 
 
-linear_batch_fn(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = 30, ncores_par = 15, nam_matrix = "equiv")#max(detectCores() - 5, 1)
+#Equivariance-covariance matrix Results
+linear_batch_fn(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = 30, ncores_par = 15, nam_matrix = "equiv")
 
-#foo <- paste("out/linear_", nam_matrix,"_n_",max_sam,"_dim_",nparm,".RData",sep="")
-#load(foo)
 
 
 

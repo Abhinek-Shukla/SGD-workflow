@@ -11,10 +11,10 @@ comb <- function(x, ...) {
 
 
 
-lad_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, cns = c(0.1, 1), ncores_par = 1, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, cns1 = 1){
+lad_batch_fn <- function(max_sam = 1e5, Rep = 1, tau = 0.5 , nparm = 5, A = diag(nparm), eta_typ = 1,  cns = c(0.1, 1), ncores_par = 1, eta_cns = 0.5, nam_matrix = "indep", sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, cns1 = 1){
  
 
-   #sigm <- qr.solve(A) 
+   sigm <- qr.solve(A) * (tau*(1-tau))/ (1/2^2)
  
   sam_siz <- sam_siz[sam_siz <= max_sam]
   n <- sam_siz[length(sam_siz)] 
@@ -49,7 +49,7 @@ lad_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, cns = c(0.1, 1), nco
   
   #1000  Replications to obtain stable results under Parallel Setting
     final_values <- foreach(cn = 1 : Rep, .combine = "comb", .packages = c("MASS","mcmcse", "smoothmest"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat', 'grad_lad'), .multicombine=TRUE,
-                            .init=list(list(), list(),list(), list(),list(), list(),list(), list(),list() )) %dopar% {
+                            .init=list(list(), list(),list(), list(),list(), list(),list(), list(),list(),list(), list(),list(), list() )) %dopar% {
     
     #Data Generated of Maximum Sample Size
     
@@ -72,68 +72,81 @@ lad_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, cns = c(0.1, 1), nco
     sg_ct_full <- sg[(burn_in + 1) : (n + burn_in),]
     
     for ( smpl in 1 : length(sam_siz)) 
-    { 
-      sg_ct <- sg_ct_full[1:sam_siz[smpl], ]
+    {
+      
+      
+      sg_ct <- sg_ct_full[1 : sam_siz[smpl], ]
       asg <- colMeans(sg_ct)
-     
-      #IBS and Oracle related coverages and volume
+      
+      
+      #Oracle coverage
+      cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+      
+      
+      
+      #IBS  related coverages and volume
       
       ibs_mean     <- ibs_jasa_mean(sg_ct, alp, cns = 0.1)
-      #print((ibs_mean))
-      #forb_ibs[cn,smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-      forb_ibs_norm[cn,smpl] <- norm(ibs_mean, "F")
-      volm_ibs[cn,smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
-      cover_ibs[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
+      
+      forb_ibs[cn, smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  #sqrt(sum((ibs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+      forb_ibs_norm[cn, smpl] <- norm(ibs_mean, "F")
+      volm_ibs[cn, smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
+      cover_ibs[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
       
       
-      #cover_orc[cn,smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
       
       count = 1
       #Different settings of EBS, for values of cns and three types of beta
       for( mk in 1 : length(cns)){ #Different values of constant cns
         for(bt_typ in 1 : 3){
-          ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
-          forb_ebs_norm[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
           
-         # forb_ebs[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-          volm_ebs[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-          cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
+          forb_ebs_norm[smpl,  cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+          
+          forb_ebs[smpl,  cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+          volm_ebs[smpl,  cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+          cover_ebs[smpl,  cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           
           ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
-          forb_ebs_norm_ls[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
+          forb_ebs_norm_ls[smpl,  cn, count] <- sqrt(sum((ebs_mean) ^ 2))
           
-          #forb_ebs_ls[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
-          volm_ebs_ls[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
-          cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          forb_ebs_ls[smpl,  cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2))/sqrt(sum(sigm ^ 2))
+          volm_ebs_ls[smpl,  cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
+          cover_ebs_ls[smpl,  cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           
-          count = count + 1           
+          count = count + 1     
+          
+          
+          
+          
         }
-      }
-      
+      } 
     }
-    list(forb_ibs_norm[cn,], volm_ibs[cn,], cover_ibs[cn,],  forb_ebs_norm[, cn, ], volm_ebs[, cn, ],  cover_ebs[, cn, ], forb_ebs_norm_ls[, cn, ],  volm_ebs_ls[, cn, ],  cover_ebs_ls[, cn, ]  )
     
-  }
-  
-  for( k in 1 : Rep){
     
-   # forb_ibs[k,] <-  final_values[[1]][[k]]
-    forb_ibs_norm[k,] <- final_values[[1]][[k]]
-      volm_ibs[k,] <- final_values[[2]][[k]]
-      cover_ibs[k,] <- final_values[[3]][[k]]
-      #cover_orc[k,] <- final_values[[5]][[k]]
-      forb_ebs_norm[, k, ] <- final_values[[4]][[k]]
-      #forb_ebs[, k, ] <- final_values[[6]][[k]]
-      volm_ebs[, k, ] <- final_values[[5]][[k]]
-      cover_ebs[, k, ] <- final_values[[6]][[k]]
-      forb_ebs_norm_ls[, k, ] <- final_values[[7]][[k]]
-     # forb_ebs_ls[, k, ] <- final_values[[10]][[k]]
-      volm_ebs_ls[, k, ] <-  final_values[[8]][[k]]
-      cover_ebs_ls[, k, ] <- final_values[[9]][[k]]
-  }
-  
-  
-  
-  fil_nam <- paste("out/lad_n_",max_sam,"_dim_",nparm,".RData",sep="")
-  save(forb_ibs_norm, forb_ebs_norm, forb_ebs_norm_ls,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,file=fil_nam)
+    list(forb_ibs[cn,],forb_ibs_norm[cn,], volm_ibs[cn,], cover_ibs[cn,], cover_orc[cn,],  forb_ebs_norm[, cn, ], forb_ebs[, cn, ], volm_ebs[, cn, ],  cover_ebs[, cn, ], forb_ebs_norm_ls[, cn, ], forb_ebs_ls[, cn, ], volm_ebs_ls[, cn, ],  cover_ebs_ls[, cn, ]  )
+    
+                            }
+    
+    for( k in 1 : Rep){
+      
+      forb_ibs[k,] <-  final_values[[1]][[k]]
+      forb_ibs_norm[k,] <- final_values[[2]][[k]]
+      volm_ibs[k,] <- final_values[[3]][[k]]
+      cover_ibs[k,] <- final_values[[4]][[k]]
+      cover_orc[k,] <- final_values[[5]][[k]]
+      forb_ebs_norm[, k, ] <- final_values[[6]][[k]]
+      forb_ebs[, k, ] <- final_values[[7]][[k]]
+      volm_ebs[, k, ] <- final_values[[8]][[k]]
+      cover_ebs[, k, ] <- final_values[[9]][[k]]
+      forb_ebs_norm_ls[, k, ] <- final_values[[10]][[k]]
+      forb_ebs_ls[, k, ] <- final_values[[11]][[k]]
+      volm_ebs_ls[, k, ] <-  final_values[[12]][[k]]
+      cover_ebs_ls[, k, ] <- final_values[[13]][[k]]
+    }
+    
+    
+    
+    fil_nam <- paste("out/linear_lad_", nam_matrix, "_n_",max_sam,"_dim_",nparm,"_eta_", eta_typ , ".RData",sep="")
+    save(eta_cns, forb_ibs_norm,forb_ebs_norm, forb_ebs_norm_ls,cover_orc,cover_ibs,cover_ebs,cover_ebs_ls,volm_ibs,volm_ebs,volm_ebs_ls,forb_ibs,forb_ebs,forb_ebs_ls,file=fil_nam)
 }
