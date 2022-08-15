@@ -94,13 +94,13 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
       volm_ibs[cn, smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
       cover_ibs[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
       #Marginal Simultaneous for IBS
-      tmp_ibs <- new.sim.int(ibs_mean, conf = 0.95, center = parm)$ints
+      tmp_ibs <- new.sim.int(ibs_mean, conf = 0.95, center = asg)$ints
       leng_ibs <- tmp_ibs[, 2] - tmp_ibs[, 1]
       marg_sim_cov_ibs[cn, smpl] <- as.numeric(sum(tmp_ibs[, 1] <= parm &  tmp_ibs[, 2] >= parm) == nparm)
     
       #Oracle coverage
       cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
-      tmp_orc <- new.sim.int(sigm, conf = 0.95, center = parm)$ints
+      tmp_orc <- new.sim.int(sigm, conf = 0.95, center = asg)$ints
       marg_sim_cov_orc[cn, smpl] <- as.numeric(sum(tmp_orc[, 1] <= parm &  tmp_orc[, 2] >= parm) == nparm)
       
       
@@ -117,7 +117,7 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
           volm_ebs[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
           cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           #Marginal simultaneous interval lengths EBS
-          tmp_ebs <- new.sim.int(ebs_mean, conf = 0.95, center = parm)$ints
+          tmp_ebs <- new.sim.int(ebs_mean, conf = 0.95, center = asg)$ints
           leng_ebs <- tmp_ebs[, 2] - tmp_ebs[, 1]
           ratio_ibs_ebs[smpl, cn, count, ] <- leng_ibs/leng_ebs
           marg_sim_cov_ebs[smpl, cn, count] <- as.numeric(sum(tmp_ebs[, 1] <= parm &  tmp_ebs[, 2] >= parm) == nparm)
@@ -129,7 +129,7 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
           volm_ebs_ls[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
           cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
           #Marginal simultaneous interval lengths EBS
-          tmp_ebs_ls <- new.sim.int(ebs_mean, conf = 0.95, center = parm)$ints
+          tmp_ebs_ls <- new.sim.int(ebs_mean, conf = 0.95, center = asg)$ints
           leng_ebs_ls <- tmp_ebs_ls[, 2] - tmp_ebs_ls[, 1]
           marg_sim_cov_ebs_ls[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls[, 1] <= parm &  tmp_ebs_ls[, 2] >= parm) == nparm)
           ratio_ibs_ebs_ls[smpl, cn, count, ] <- leng_ibs/leng_ebs_ls

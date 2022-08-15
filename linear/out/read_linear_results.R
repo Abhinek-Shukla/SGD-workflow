@@ -1,9 +1,9 @@
 rm(list = ls())
 nparm <- 5
 sq_n <- c("5e4","1e5","2e5","5e5","8e5","1e6","5e6")
-cover_all <- forb_norm_all  <-   matrix(nrow = length(sq_n), ncol = 14)
+cover_all <- marg_covg <- forb_norm_all  <-   matrix(nrow = length(sq_n), ncol = 14)
 volm_all <- sd_volm <- forb_all <- sd_forb <- matrix(nrow = length(sq_n), ncol = 14)
-sd_cover <- sd_forb_norm <- matrix(nrow = length(sq_n), ncol = 14)
+sd_cover <- sd_marg_covg <- sd_forb_norm <- matrix(nrow = length(sq_n), ncol = 14)
 interv_ratio <- sd_interv_ratio <-  array(dim = c(length(sq_n), 12, nparm), dimnames = list(1 : length(sq_n), 1 : 12, 1 : nparm))
 
 load("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/linear_indep_n_5e+06_dim_5.RData")
