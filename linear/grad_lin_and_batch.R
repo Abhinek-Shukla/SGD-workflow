@@ -11,7 +11,7 @@ comb <- function(x, ...)
          function(i) c(x[[i]], lapply(list(...), function(y) y[[i]])))
   }
 
-
+source("Visualization_paper_code/sim_functions.R")
 #Function to obtain performance of estimators
 linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns = c(0.1, 1), ncores_par = 1, eta_cns = 0.5, sam_siz = c(5e4,1e5,2e5,5e5,8e5,1e6,5e6,1e7), qlev = 0.95, alp = .51, burn_in = 1000, nam_matrix = "indep", cns1 = 1)
   {
@@ -45,15 +45,18 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
   cover_ebs <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln), dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
   volm_ebs_ls <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln), dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
   forb_ebs_norm_ls <- cover_ebs_ls  <- forb_ebs_ls <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln), dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  ratio_ibs_ebs <- ratio_ibs_ebs_ls <- ratio_ebs_ls_ebs <- array(rep(0, nparm * cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln, nparm), dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln, 1 : nparm))
+  marg_sim_cov_orc <- marg_sim_cov_ibs <- matrix(rep(0, length(sam_siz)*Rep), nrow = Rep, ncol = length(sam_siz), dimnames = list( 1 : Rep, sam_siz))
+  marg_sim_cov_ebs <- marg_sim_cov_ebs_ls <- array(rep(0, cns_ln * Rep * length(sam_siz)), dim = c(length(sam_siz), Rep, cns_ln), dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
   
-# Parallelization
+  # Parallelization
   library(doParallel) 
   library(foreach)
   
   registerDoParallel(cores = min(Rep, ncores_par))  
   
-  final_values <- foreach(cn = 1 : Rep, .combine = "comb", .packages = c("MASS","mcmcse"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat', 'grad_lin'), .multicombine=TRUE,
-                            .init = list(list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list() )) %dopar% 
+  final_values <- foreach(cn = 1 : Rep, .combine = "comb", .packages = c("MASS","mcmcse", "mvtnorm"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat', 'grad_lin', 'new.sim.int', 'opt_beta_fn', 'b_our'), .multicombine=TRUE,
+                            .init = list(list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(), list(), list(), list(),list(), list(),list())) %dopar% 
     {
     
     #Data Generated of Maximum Sample Size
@@ -90,9 +93,16 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
       forb_ibs_norm[cn, smpl] <- norm(ibs_mean, "F")
       volm_ibs[cn, smpl]  <- (det(ibs_mean)) ^ (1 / nparm)
       cover_ibs[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(ibs_mean) %*% (asg - parm) <= crt_val)
-      
+      #Marginal Simultaneous for IBS
+      tmp_ibs <- new.sim.int(ibs_mean, conf = 0.95, center = parm)$ints
+      leng_ibs <- tmp_ibs[, 2] - tmp_ibs[, 1]
+      marg_sim_cov_ibs[cn, smpl] <- as.numeric(sum(tmp_ibs[, 1] <= parm &  tmp_ibs[, 2] >= parm) == nparm)
+    
       #Oracle coverage
       cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+      tmp_orc <- new.sim.int(sigm, conf = 0.95, center = parm)$ints
+      marg_sim_cov_orc[cn, smpl] <- as.numeric(sum(tmp_orc[, 1] <= parm &  tmp_orc[, 2] >= parm) == nparm)
+      
       
       count = 1
       #Different settings of equal batch size estimator (EBS), for values of cns and three types of beta
@@ -106,6 +116,11 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
           forb_ebs[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2)) / sqrt(sum(sigm ^ 2))
           volm_ebs[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
           cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          #Marginal simultaneous interval lengths EBS
+          tmp_ebs <- new.sim.int(ebs_mean, conf = 0.95, center = parm)$ints
+          leng_ebs <- tmp_ebs[, 2] - tmp_ebs[, 1]
+          ratio_ibs_ebs[smpl, cn, count, ] <- leng_ibs/leng_ebs
+          marg_sim_cov_ebs[smpl, cn, count] <- as.numeric(sum(tmp_ebs[, 1] <= parm &  tmp_ebs[, 2] >= parm) == nparm)
           
           ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
           forb_ebs_norm_ls[smpl, cn, count] <- sqrt(sum((ebs_mean) ^ 2))
@@ -113,13 +128,20 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
           forb_ebs_ls[smpl, cn, count]  <- sqrt(sum((ebs_mean - sigm) ^ 2)) / sqrt(sum(sigm ^ 2))
           volm_ebs_ls[smpl, cn, count]  <- (det(ebs_mean) ) ^ (1 / nparm)
           cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm ) %*% qr.solve(ebs_mean ) %*% (asg - parm) <= crt_val)
+          #Marginal simultaneous interval lengths EBS
+          tmp_ebs_ls <- new.sim.int(ebs_mean, conf = 0.95, center = parm)$ints
+          leng_ebs_ls <- tmp_ebs_ls[, 2] - tmp_ebs_ls[, 1]
+          marg_sim_cov_ebs_ls[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls[, 1] <= parm &  tmp_ebs_ls[, 2] >= parm) == nparm)
+          ratio_ibs_ebs_ls[smpl, cn, count, ] <- leng_ibs/leng_ebs_ls
+          
+          ratio_ebs_ls_ebs[smpl, cn, count, ] <- leng_ebs_ls/leng_ebs
           
           count = count + 1           
          }
         }
       
     }
-    list(forb_ibs[cn, ],forb_ibs_norm[cn, ], volm_ibs[cn, ], cover_ibs[cn, ], cover_orc[cn, ],  forb_ebs_norm[, cn, ], forb_ebs[, cn, ], volm_ebs[, cn, ],  cover_ebs[, cn, ], forb_ebs_norm_ls[, cn, ], forb_ebs_ls[, cn, ], volm_ebs_ls[, cn, ],  cover_ebs_ls[, cn, ]  )
+    list(forb_ibs[cn, ],forb_ibs_norm[cn, ], volm_ibs[cn, ], cover_ibs[cn, ], cover_orc[cn, ],  forb_ebs_norm[, cn, ], forb_ebs[, cn, ], volm_ebs[, cn, ],  cover_ebs[, cn, ], forb_ebs_norm_ls[, cn, ], forb_ebs_ls[, cn, ], volm_ebs_ls[, cn, ],  cover_ebs_ls[, cn, ],  ratio_ibs_ebs[, cn, , ], ratio_ibs_ebs_ls[, cn, , ], ratio_ebs_ls_ebs[, cn, , ], marg_sim_cov_orc[cn, ], marg_sim_cov_ibs[cn, ], marg_sim_cov_ebs[, cn, ], marg_sim_cov_ebs_ls[, cn, ])
     
     }
   
@@ -139,10 +161,19 @@ linear_batch_fn <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), 
       forb_ebs_ls[, k, ] <- final_values[[11]][[k]]
       volm_ebs_ls[, k, ] <-  final_values[[12]][[k]]
       cover_ebs_ls[, k, ] <- final_values[[13]][[k]]
+      ratio_ibs_ebs[, k, , ] <- final_values[[14]][[k]]
+      ratio_ibs_ebs_ls[, k, , ] <- final_values[[15]][[k]]
+      ratio_ebs_ls_ebs[, k, , ] <- final_values[[16]][[k]]
+      marg_sim_cov_orc[k, ] <- final_values[[17]][[k]]
+      marg_sim_cov_ibs[k, ] <- final_values[[18]][[k]]
+      marg_sim_cov_ebs[, k, ] <- final_values[[19]][[k]]
+      marg_sim_cov_ebs_ls[, k, ] <- final_values[[20]][[k]]
+      
+      
     }
   
   
   
   fil_nam <- paste("out/linear_", nam_matrix, "_n_", max_sam, "_dim_", nparm, ".RData", sep = "")
-  save(forb_ibs_norm, forb_ebs_norm, forb_ebs_norm_ls, cover_orc, cover_ibs, cover_ebs, cover_ebs_ls, volm_ibs, volm_ebs, volm_ebs_ls, forb_ibs, forb_ebs, forb_ebs_ls, file = fil_nam)
+  save(marg_sim_cov_orc, marg_sim_cov_ibs, marg_sim_cov_ebs, marg_sim_cov_ebs_ls, ratio_ibs_ebs, forb_ibs_norm, ratio_ibs_ebs_ls, ratio_ebs_ls_ebs, forb_ebs_norm, forb_ebs_norm_ls, cover_orc, cover_ibs, cover_ebs, cover_ebs_ls, volm_ibs, volm_ebs, volm_ebs_ls, forb_ibs, forb_ebs, forb_ebs_ls, file = fil_nam)
  }

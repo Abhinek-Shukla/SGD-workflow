@@ -4,17 +4,17 @@ library(MASS)
 library(doParallel)
 library(foreach)
 library(mcmcse)
-source("./../opt_bet_fn.R")
+library(mvtnorm)
 source("grad_lin_and_batch.R")
 source("./../ebs_batch_mean.R")
 source("./../ibs_jasa_mean.R")
 source("./../sqrt_mat.R")
 
 max_sam <- 1e5
-nparm <- 20
+nparm <- 5
 
 #Identity variance-covaiance matrix case
-linear_batch_fn(max_sam = max_sam, nparm = nparm, Rep = 2, ncores_par = 2, nam_matrix = "indep", cns = c(0.001, 0.01))
+linear_batch_fn(max_sam = max_sam, nparm = nparm, Rep = 2, ncores_par = 2, nam_matrix = "indep", cns = c(0.1, 1))
 
 
 
