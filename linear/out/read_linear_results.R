@@ -1,9 +1,9 @@
 rm(list = ls())
 nparm <- 5
 sq_n <- c("5e4","1e5","2e5","5e5","8e5","1e6","5e6")
-cover_all <- marg_covg <- forb_norm_all  <-   matrix(nrow = length(sq_n), ncol = 14)
+cover_all <- marg_covg <- marg_covg_volm <-  forb_norm_all  <-   matrix(nrow = length(sq_n), ncol = 14)
 volm_all <- sd_volm <- forb_all <- sd_forb <- matrix(nrow = length(sq_n), ncol = 14)
-sd_cover <- sd_marg_covg <- sd_forb_norm <- matrix(nrow = length(sq_n), ncol = 14)
+sd_cover <- sd_marg_covg <- sd_marg_covg_volm <- sd_forb_norm <- matrix(nrow = length(sq_n), ncol = 14)
 interv_ratio <- sd_interv_ratio <-  array(dim = c(length(sq_n), 12, nparm), dimnames = list(1 : length(sq_n), 1 : 12, 1 : nparm))
 
 load("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/linear_indep_n_5e+06_dim_5.RData")
@@ -32,7 +32,7 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/cover_rates_linear_indep.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/cover_rates_linear_indep_dim_5.pdf",         # File name
     width = 11, height = 12,   # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
@@ -143,7 +143,7 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/volume_linear_indep.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/volume_linear_indep_dim_5.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
@@ -254,7 +254,7 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/relative_frobenius_indep.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/relative_frobenius_indep_dim_5.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
@@ -368,7 +368,7 @@ lin_typ <- c(6, 3, rep(1,6), rep(2,6))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/self_frobenius_indep.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/self_frobenius_indep_dim_5.pdf",         # File name
     width = 11, height = 12, # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
@@ -481,7 +481,7 @@ lin_typ <- c( rep(1, 6), rep(2, 6))
 names_var <- c( expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
 
 
-pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/interval_ratio_first_comp_linear_indep.pdf",         # File name
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/inter_ratio_first_comp_linear_indep_dim_5.pdf",         # File name
     width = 11, height = 12,   # Width and height in inches
     bg = "white",          # Background color
     colormodel = "cmyk")          # Paper size
@@ -556,3 +556,224 @@ legend("bottom", legend = names_var,
        box.lty=1, box.lwd=2, ncol = 5)
 
 dev.off()
+
+
+for(n in 1 : length(sq_n)){
+  
+  marg_covg[n, 1] <- mean( marg_sim_cov_orc[,n])
+  marg_covg[n, 2] <- mean( marg_sim_cov_ibs[,n])
+  marg_covg[n, 3 : 14] <- c(colMeans(marg_sim_cov_ebs[n, , ]), colMeans(marg_sim_cov_ebs_ls[n, , ]))
+  Reps <- length(cover_orc)
+  sd_marg_covg[n, 1] <- sd( marg_sim_cov_orc[, n]) / sqrt(Reps)
+  sd_marg_covg[n, 2] <- sd( marg_sim_cov_ibs[, n]) / sqrt(Reps)
+  sd_marg_covg[n, 3 : 14] <- c(apply(marg_sim_cov_ebs[n, , ], 2, sd), apply(marg_sim_cov_ebs_ls[n, , ], 2, sd)) / sqrt(Reps)
+  
+  
+  
+  
+}
+
+sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
+
+
+col_choic <- c("red", "steelblue", "brown", "tomato", "yellow", "slateblue",  "magenta3", "palegreen" , "brown", "tomato", "yellow", "slateblue",  "magenta3", "palegreen" )
+lin_typ <- c(6, 3, rep(1,6), rep(2,6))
+names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
+
+
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/marg_sim_cov_rates_linear_indep_dim_5.pdf",         # File name
+    width = 11, height = 12,   # Width and height in inches
+    bg = "white",          # Background color
+    colormodel = "cmyk")          # Paper size
+
+plot(sq_n, marg_covg[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Marginal Simultaneous Coverage Rate", col = "red", ylim = c(0.06,1))
+arrows(sq_n, marg_covg[, 1], sq_n, marg_covg[, 1] + sd_marg_covg[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 1], sq_n, marg_covg[, 1] - sd_marg_covg[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, marg_covg[, 2], sq_n, marg_covg[, 2] + sd_marg_covg[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 2], sq_n, marg_covg[, 2] - sd_marg_covg[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 3], sq_n, marg_covg[, 3] + sd_marg_covg[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 3], sq_n, marg_covg[, 3] - sd_marg_covg[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 4], sq_n, marg_covg[, 4] + sd_marg_covg[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 4], sq_n, marg_covg[, 4] - sd_marg_covg[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 5], sq_n, marg_covg[, 5] + sd_marg_covg[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 5], sq_n, marg_covg[, 5] - sd_marg_covg[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 6], sq_n, marg_covg[, 6] + sd_marg_covg[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 6], sq_n, marg_covg[, 6] - sd_marg_covg[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 7], sq_n, marg_covg[, 7] + sd_marg_covg[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 7], sq_n, marg_covg[, 7] - sd_marg_covg[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, marg_covg[, 8], sq_n, marg_covg[, 8] + sd_marg_covg[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 8], sq_n, marg_covg[, 8] - sd_marg_covg[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 9], sq_n, marg_covg[, 9] + sd_marg_covg[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 9], sq_n, marg_covg[, 9] - sd_marg_covg[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 10], sq_n, marg_covg[, 10] + sd_marg_covg[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 10], sq_n, marg_covg[, 10] - sd_marg_covg[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 11], sq_n, marg_covg[, 11] + sd_marg_covg[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 11], sq_n, marg_covg[, 11] - sd_marg_covg[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 12], sq_n, marg_covg[, 12] + sd_marg_covg[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 12], sq_n, marg_covg[, 12] - sd_marg_covg[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+lines(sq_n, marg_covg[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 13], sq_n, marg_covg[, 13] + sd_marg_covg[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 13], sq_n, marg_covg[, 13] - sd_marg_covg[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+lines(sq_n, marg_covg[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, marg_covg[, 14], sq_n, marg_covg[, 14] + sd_marg_covg[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg[, 14], sq_n, marg_covg[, 14] - sd_marg_covg[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
+legend("bottom", legend = names_var,
+       col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
+       box.lty=1, box.lwd=2, ncol = 5)
+
+dev.off()
+
+
+
+
+for(n in 1 : length(sq_n)){
+  
+  marg_covg_volm[n, 1] <- mean( marg_volm_orc[,n])
+  marg_covg_volm[n, 2] <- mean( marg_volm_ibs[,n])
+  marg_covg_volm[n, 3 : 14] <- c(colMeans(marg_volm_ebs[n, , ]), colMeans(marg_volm_ebs_ls[n, , ]))
+  Reps <- length(cover_orc)
+  sd_marg_covg_volm[n, 1] <- sd( marg_volm_orc[, n]) / sqrt(Reps)
+  sd_marg_covg_volm[n, 2] <- sd( marg_volm_ibs[, n]) / sqrt(Reps)
+  sd_marg_covg_volm[n, 3 : 14] <- c(apply(marg_volm_ebs[n, , ], 2, sd), apply(marg_volm_ebs_ls[n, , ], 2, sd)) / sqrt(Reps)
+  
+  
+  
+  
+}
+
+
+
+
+sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
+
+
+col_choic <- c("red", "steelblue", "brown", "tomato", "yellow", "slateblue",  "magenta3", "palegreen" , "brown", "tomato", "yellow", "slateblue",  "magenta3", "palegreen" )
+lin_typ <- c(6, 3, rep(1,6), rep(2,6))
+names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("c = 1, ", beta[1])),  expression(paste("c = 1, ", beta[2])) , expression(paste("c = 1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])), expression(paste("LS c = 1, ", beta[1])),  expression(paste("LS c = 1, ", beta[2])) , expression(paste("LS c = 1, ", beta[3])))
+
+
+pdf("C:/Users/Hp/Documents/GitHub/Batch_Means_Online/linear/out/marg_sim_cov_rates_linear_indep_dim_5.pdf",         # File name
+    width = 11, height = 12,   # Width and height in inches
+    bg = "white",          # Background color
+    colormodel = "cmyk")          # Paper size
+
+plot(sq_n, marg_covg_volm[, 1], type = "b", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratio of Marginal to Joint Confidence Regions", col = "red", ylim = c(0.06,5))
+arrows(sq_n, marg_covg_volm[, 1], sq_n, marg_covg_volm[, 1] + sd_marg_covg_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 1], sq_n, marg_covg_volm[, 1] - sd_marg_covg_volm[,1], length=0.05, angle=90, col = "red", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 2],  lwd = 2, col = "steelblue", lty = 3, type = "b")
+arrows(sq_n, marg_covg_volm[, 2], sq_n, marg_covg_volm[, 2] + sd_marg_covg_volm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 2], sq_n, marg_covg_volm[, 2] - sd_marg_covg_volm[,2], length=0.05, angle=90, col = "steelblue", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg_volm[, 3],  lwd = 2, col = "brown", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 3], sq_n, marg_covg_volm[, 3] + sd_marg_covg_volm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 3], sq_n, marg_covg_volm[, 3] - sd_marg_covg_volm[, 3], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 4],  lwd = 2, col = "tomato", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 4], sq_n, marg_covg_volm[, 4] + sd_marg_covg_volm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 4], sq_n, marg_covg_volm[, 4] - sd_marg_covg_volm[, 4], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg_volm[, 5],  lwd = 2, col = "yellow", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 5], sq_n, marg_covg_volm[, 5] + sd_marg_covg_volm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 5], sq_n, marg_covg_volm[, 5] - sd_marg_covg_volm[, 5], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 6],  lwd = 2, col = "slateblue", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 6], sq_n, marg_covg_volm[, 6] + sd_marg_covg_volm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 6], sq_n, marg_covg_volm[, 6] - sd_marg_covg_volm[, 6], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg_volm[, 7],  lwd = 2, col = "magenta3", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 7], sq_n, marg_covg_volm[, 7] + sd_marg_covg_volm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 7], sq_n, marg_covg_volm[, 7] - sd_marg_covg_volm[, 7], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 8],  lwd = 2, col = "palegreen", lty = 1, type = "b")
+arrows(sq_n, marg_covg_volm[, 8], sq_n, marg_covg_volm[, 8] + sd_marg_covg_volm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 8], sq_n, marg_covg_volm[, 8] - sd_marg_covg_volm[, 8], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 9],  lwd = 2, col = "brown", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 9], sq_n, marg_covg_volm[, 9] + sd_marg_covg_volm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 9], sq_n, marg_covg_volm[, 9] - sd_marg_covg_volm[, 9], length=0.05, angle=90, col = "brown", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 10],  lwd = 2, col = "tomato", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 10], sq_n, marg_covg_volm[, 10] + sd_marg_covg_volm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 10], sq_n, marg_covg_volm[, 10] - sd_marg_covg_volm[, 10], length=0.05, angle=90, col = "tomato", lwd = 2, lty = 1 )
+
+
+lines(sq_n, marg_covg_volm[, 11],  lwd = 2, col = "yellow", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 11], sq_n, marg_covg_volm[, 11] + sd_marg_covg_volm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 11], sq_n, marg_covg_volm[, 11] - sd_marg_covg_volm[, 11], length=0.05, angle=90, col = "yellow", lwd = 2, lty = 1 )
+
+
+
+lines(sq_n, marg_covg_volm[, 12],  lwd = 2, col = "slateblue", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 12], sq_n, marg_covg_volm[, 12] + sd_marg_covg_volm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 12], sq_n, marg_covg_volm[, 12] - sd_marg_covg_volm[, 12], length=0.05, angle=90, col = "slateblue", lwd = 2, lty = 1 )
+
+lines(sq_n, marg_covg_volm[, 13],  lwd = 2, col = "magenta3", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 13], sq_n, marg_covg_volm[, 13] + sd_marg_covg_volm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 13], sq_n, marg_covg_volm[, 13] - sd_marg_covg_volm[, 13], length=0.05, angle=90, col = "magenta3", lwd = 2, lty = 1 )
+
+lines(sq_n, marg_covg_volm[, 14],  lwd = 2, col = "palegreen", lty = 2, type = "b")
+arrows(sq_n, marg_covg_volm[, 14], sq_n, marg_covg_volm[, 14] + sd_marg_covg_volm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+arrows(sq_n, marg_covg_volm[, 14], sq_n, marg_covg_volm[, 14] - sd_marg_covg_volm[, 14], length=0.05, angle=90, col = "palegreen", lwd = 2, lty = 1 )
+
+
+legend("bottom", legend = names_var,
+       col = col_choic, lwd = 2, lty = lin_typ, cex=1.2,
+       box.lty=1, box.lwd=2, ncol = 5)
+
+dev.off()
+
+
