@@ -21,13 +21,11 @@ Reps <- 2
 #Toeplitz and Equivariance-covariance matrices definitions
 rho <- 0.5
 foo <- X_mat(nparm = nparm, rho = rho)
-equiv_mat <- foo[[1]]
 toep_mat <- foo[[2]]
 
 
 linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1, 1))
 linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep")
-linear_reps(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv")
 
 ####################################################################################################################
 
@@ -43,11 +41,9 @@ Reps <- 2
 #Toeplitz and Equivariance-covariance matrices definitions
 rho <- 0.5
 foo <- X_mat(nparm = nparm, rho = rho)
-equiv_mat <- foo[[1]]
 toep_mat <- foo[[2]]
 
 linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
 linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
-linear_reps (max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
 
 

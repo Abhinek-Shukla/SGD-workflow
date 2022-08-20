@@ -25,15 +25,6 @@ Loading required package: iterators
 Loading required package: parallel
 > library(foreach)
 > library(mcmcse)
-mcmcse: Monte Carlo Standard Errors for MCMC
-Version 1.4-1 created on 2020-01-29.
-copyright (c) 2012, James M. Flegal, University of California, Riverside
-                    John Hughes, University of Colorado, Denver
-                    Dootika Vats, University of Warwick
-                    Ning Dai, University of Minnesota
- For citation information, type citation("mcmcse").
- Type help("mcmcse-package") to get started.
-
 > library(mvtnorm)
 > source("linear_main.R")
 > source("./../ebs.R")
@@ -79,7 +70,7 @@ copyright (c) 2012, James M. Flegal, University of California, Riverside
 > 
 > linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
 > linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
-> linear_reps(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
-Error in { : task 2 failed - "singular matrix 'a' in solve"
+> linear_reps (max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv", cns = c(0.1), cns1 = 0.0005, eta_cns = 1)
+Error in { : task 1 failed - "singular matrix 'a' in solve"
 Calls: linear_reps -> %dopar% -> <Anonymous>
 Execution halted
