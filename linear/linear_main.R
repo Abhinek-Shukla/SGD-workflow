@@ -96,7 +96,7 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns 
   registerDoParallel(cores = min(Rep, ncores_par))  
   
   final_values <- foreach(cn = 1:Rep, .combine = "comb", .packages = c("MASS","mcmcse", "mvtnorm"), .export = c( 'ebs_batch_mean', 'ibs_jasa_mean', 'sqrt_mat', 'grad_lin', 'new.sim.int', 'opt_beta_fn', 'b_our'), .multicombine=TRUE,
-                            .init = list(list(), list(), list(),list(), list(), list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(), list(), list(), list(),list(), list(),list())) %dopar% 
+                            .init = list(list(), list(), list(),list(), list(), list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(),list(), list(), list(), list(), list() )) %dopar% 
   {
     
     # Generating data of Maximum Sample Size
@@ -115,10 +115,10 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns 
       eta[i] <- i^( - alp)
       sg[i, ] <- sg[i - 1, ] - eta_cns * eta[i] * grad_lin(sg[i - 1, ], y[i], x[i, ]) 
     }
+    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]      # Removing burn in 
     
-    # Removing burn in 
-    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]
-    
+
+
     # caculate performance criteria at each desired sample size
     for(smpl in 1:length(sam_siz)) 
     { 
@@ -132,7 +132,7 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm), cns 
       ## Oracle calculations
       ###########
       volm_orc[cn, smpl]  <- tmp_vol * (det(sigm)) ^ (1 / 2)
-      cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% solve(sigm) %*% (asg - parm) <= crt_val)  
+      cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) %*% qr.solve(sigm) %*% (asg - parm) <= crt_val)  
       
       tmp_orc <- new.sim.int(sigm/sam_siz[smpl], conf = 0.95, center = asg)$ints
       leng_orc <- tmp_orc[, 2] - tmp_orc[, 1]      
