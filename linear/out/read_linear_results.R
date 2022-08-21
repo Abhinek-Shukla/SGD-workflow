@@ -168,7 +168,7 @@ dev.off()
 ## Results for Dimension 20 
 #######################################################################
 
-load("out/linear_indep_n_5e+06_dim_20_2.RData")
+load("out/linear_indep_n_5e+06_dim_20.RData")
 nparm <- 20
 sq_n <- c("5e4","1e5","2e5","5e5","8e5","1e6","5e6")
 
@@ -265,7 +265,7 @@ names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), express
 index <- c(1, 2, 3, 6)
 
 pdf("out/Lmcover_dim20.pdf", height = 6, width = 7)
-plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1, -.2)))
 for(k in index)
 {
   lines(sq_n, cover_all[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -296,7 +296,7 @@ dev.off()
 
 
 pdf("out/Lfrob_dim20.pdf", height = 6, width = 7)
-plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], 0)))
+plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
   lines(sq_n, frob_all[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
