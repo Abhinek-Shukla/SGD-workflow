@@ -265,7 +265,7 @@ names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), express
 index <- c(1, 2, 3, 6)
 
 pdf("out/Lmcover_dim20.pdf", height = 6, width = 7)
-plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1, -.2)))
+plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1, -.2)))
 for(k in index)
 {
   lines(sq_n, cover_all[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -281,7 +281,7 @@ dev.off()
 
 
 pdf("out/Lsimul_dim20.pdf", height = 6, width = 7)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -309,7 +309,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 pdf("out/Lrelvol_dim20.pdf", height = 6, width = 7)
-plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(marg_covg_volm[, index], 1)))
+plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg_volm[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")

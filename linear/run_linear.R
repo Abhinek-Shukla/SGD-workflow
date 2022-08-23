@@ -24,7 +24,7 @@ foo <- X_mat(nparm = nparm, rho = rho)
 toep_mat <- foo[[2]]
 
 
-linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1, 1))
+linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1))
 #linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep")
 
 ####################################################################################################################
@@ -43,7 +43,7 @@ rho <- 0.5
 foo <- X_mat(nparm = nparm, rho = rho)
 toep_mat <- foo[[2]]
 
-linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1), cns1 = 0.0005, eta_cns = 1)
-#linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep", cns = c(0.1), cns1 = 0.0005, eta_cns = 1)
+linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
+#linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
 
 
