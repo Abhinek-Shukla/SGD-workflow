@@ -1,5 +1,5 @@
 ##########################################################
-## The file shows histogram for different estimators
+## The file shows QQ plot for different estimators
 ##########################################################
 ## Function to calculate the SQRT of a matrix using SVD
 sqrt_mat <- function(sigm)
@@ -42,7 +42,7 @@ opt_beta_fn <- function(alpha, m)
 }
 
 ## EBS estimator function
-ebs_batch_hist <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
+ebs_batch <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 {
   n <- nrow(sgd)  # Number of SGD iterates
   nparm <- ncol(sgd)
@@ -58,7 +58,7 @@ ebs_batch_hist <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
   bn <- min(two_seq[two_seq >= cns * n^bet]) 	# Equal Batch Size Configuration
   an <- floor(n/bn) 	# No. of batches
   
-  ebs <- t(sapply(1 : an, function(i) colMeans( matrix(sgd[(bn*(i - 1) + 1) : (bn*i - 1), ], ncol = nparm ))))
+  ebs <- t(sapply(1 : an, function(i) colMeans( matrix(sgd[(bn*(i - 1) + 1) : (bn*i), ], ncol = nparm ))))
   ebs <- sqrt(bn) * scale(ebs, center = colMeans(sgd), scale = FALSE)
   return(ebs)
 }
@@ -68,7 +68,7 @@ ebs_batch_hist <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 ## Function to calculate the IBS estimator 
 ##############################################
 
-ibs_jasa_hist <- function(sgd, alp = 0.51, cns = 1) 
+ibs_jasa <- function(sgd, alp = 0.51, cns = 1) 
 {
   n <- nrow(sgd)
   nparm <- ncol(sgd)
@@ -79,6 +79,7 @@ ibs_jasa_hist <- function(sgd, alp = 0.51, cns = 1)
   
   # Batch Sizes
   bm <- diff(am)
+
   batch_means <- t(sapply(1:(length(am)-1), function(i) colMeans( matrix(sgd[am[i] : (am[i+1]-1), ], ncol = nparm ))))
   
   batch_means <- sqrt(bm)*scale(batch_means, center = colMeans(sgd), scale = FALSE)
@@ -87,11 +88,11 @@ ibs_jasa_hist <- function(sgd, alp = 0.51, cns = 1)
 
 
 
-linear_hist <- function( nparm = 5, A = diag(nparm), cns = c(0.1, 1),
-                        eta_cns = 0.5, sam_siz = 1e6, qlev = 0.95, alp = .51, 
-                        burn_in = 10000, nam_matrix = "indep", cns1 = 0.1)
+linear_qq <- function( nparm = 5, cns = c(0.1, 1),
+                        eta_cns = 0.5, sam_siz = c(1e6), alp = .51, 
+                        burn_in = 1000, cns1 = 0.1, Iter = 2, nsampl = 1000)
 {
-  #sigm <- qr.solve(A) 
+
   n <- sam_siz
   parm <- seq(1 / nparm, 1, length.out = nparm)  #Parameter space
   
@@ -100,10 +101,10 @@ linear_hist <- function( nparm = 5, A = diag(nparm), cns = c(0.1, 1),
 
   # Following matrix will be used in generating regressors X
   sqrt_sig <- diag(nparm)
+  ibs_batches <- ebs_batches <- vector()
   
-  # Declaring variable names  
-  cns_ln <- 3*length(cns)    # 3 types of beta 
-  
+for( itr in 1 : Iter)
+{  
   
   # Generating data of Maximum Sample Size
   x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
@@ -129,26 +130,24 @@ linear_hist <- function( nparm = 5, A = diag(nparm), cns = c(0.1, 1),
     ################################
     ### IBS batch means calculations
     ################################
-    ibs_hist     <- as.vector(ibs_jasa_hist(sg_ct, alp, cns = cns1))
+    ibs_batches     <- c(ibs_batches, as.vector(ibs_jasa(sg_ct, alp, cns = cns1)))
   
-  pdf(file = paste("out/Hist_qq_dim_", nparm, "_sam_", n, ".pdf"))
-  par(mfrow = c(2, 2))
-    hist(ibs_hist, main = "IBS")
-    qqnorm(ibs_hist, pch = 1, frame = FALSE, main = "IBS")
-    qqline(ibs_hist, col = "steelblue", lwd = 2)
-    # Different settings of equal batch size estimator (EBS), for values of cns and three types of beta
-    for(mk in 1 : 1)
-    { 
-      for(bt_typ in 2 : 2)
-      { 
-        ###########
-        ### EBS calculation 
-        ###########
-        ebs_hist <- as.vector(ebs_batch_hist(sg_ct, alp, cns[mk], bt_typ))
-        hist(ebs_hist, main = "EBS")
-        qqnorm(ebs_hist, pch = 1, frame = FALSE, main = "EBS")
-        qqline(ebs_hist, col = "steelblue", lwd = 2)
-      }
-    }  
+    ###########
+    ### EBS calculation 
+    ###########
+    ebs_batches <- c(ebs_batches, as.vector(ebs_batch(sg_ct, alp, cns = cns, bet_typ = 2)))
+       
+    
+}
+  ibs_new <- quantile(ibs_batches, probs = runif(nsampl))
+  ebs_new <- quantile(ebs_batches, probs = runif(nsampl))
+  pdf(file = paste("out/qq_dim_", nparm, "_sam_", n, ".pdf"))
+  par(mfrow = c(2, 1))
+  
+  qqnorm(ibs_new, pch = 1, frame = FALSE, main = "IBS")
+  qqline(ibs_new, col = "steelblue", lwd = 2)
+  
+  qqnorm(ebs_new, pch = 1, frame = FALSE, main = "EBS")
+  qqline(ebs_new, col = "steelblue", lwd = 2)
   dev.off()
 }

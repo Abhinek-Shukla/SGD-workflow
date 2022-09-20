@@ -39,4 +39,4 @@ nbatches <- function(n, alp = 0.51, cns = 1, cns1 = 1)
   return(num_batc)
 }
 
-nbatches(n = 1e6, cns = 0.1, cns1 = .1)
+nbatches(n = 1e6, cns = 0.1, cns1 = .1)[1]
