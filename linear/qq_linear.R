@@ -103,51 +103,60 @@ linear_qq <- function( nparm = 5, cns = c(0.1, 1),
   sqrt_sig <- diag(nparm)
   ibs_batches <- ebs_batches <- vector()
   
-for( itr in 1 : Iter)
-{  
-  
-  # Generating data of Maximum Sample Size
-  x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
-  x <- x %*% sqrt_sig
-  y <- x %*% parm + rnorm((n + burn_in), mean = 0, sd = 1)
-  
-  # Learning Rate
-  eta <- numeric(n + burn_in)
-  
-  sg[1, ] <- rep(0, nparm)  # always starting from the zero vector estimate
-  
-  ## Generating full SGD sequence -- this takes time
-  for(i in 2 : (n + burn_in))
-  {
-    eta[i] <- i^( - alp)
-    sg[i, ] <- sg[i - 1, ] - eta_cns * eta[i] * grad_lin(sg[i - 1, ], y[i], x[i, ]) 
+  for( itr in 1 : Iter)
+  {  
+    
+    # Generating data of Maximum Sample Size
+    x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
+    x <- x %*% sqrt_sig
+    y <- x %*% parm + rnorm((n + burn_in), mean = 0, sd = 1)
+    
+    # Learning Rate
+    eta <- numeric(n + burn_in)
+    
+    sg[1, ] <- rep(0, nparm)  # always starting from the zero vector estimate
+    
+    ## Generating full SGD sequence -- this takes time
+    for(i in 2 : (n + burn_in))
+    {
+      eta[i] <- i^( - alp)
+      sg[i, ] <- sg[i - 1, ] - eta_cns * eta[i] * grad_lin(sg[i - 1, ], y[i], x[i, ]) 
+    }
+    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]      # Removing burn in
+      
+    sg_ct <- sg_ct_full # main process inside this loop
+    asg <- colMeans(sg_ct) # Averaged SGD
+    
+      ################################
+      ### IBS batch means calculations
+      ################################
+      ibs_batches <- c(ibs_batches, 
+        as.vector(ibs_jasa(sg_ct, alp, cns = cns1)))
+    
+      ###########
+      ### EBS calculation 
+      ###########
+      ebs_batches <- c(ebs_batches, 
+        as.vector(ebs_batch(sg_ct, alp, cns = cns, bet_typ = 2)))
+         
+      
   }
-  sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]      # Removing burn in
-    
-  sg_ct <- sg_ct_full # main process inside this loop
-  asg <- colMeans(sg_ct) # Averaged SGD
+
+  pdf(file = paste("out/qq_dim_", nparm, "_sam_", n, ".pdf"),
+  height = 5, width = 5)
+   
+  p1 <- pnorm(seq(-.5,.5, length = nsampl))
+  ibs_new <- quantile(scale(ibs_batches), probs = p1)
+  ebs_new <- quantile(scale(ebs_batches), probs = p1)
+  theory <- qnorm(p1)
+  plot(theory, ibs_new, xlab = "Theoretical Quantiles", 
+    ylab = "Sample Quantiles", ylim = range(theory), type = "n")
+  lines(theory, ibs_new, pch = 1, col = "steelblue")
+  lines(theory, ebs_new, pch = 1, col = "brown", lwd = 2)
+  lines(theory, theory, col = "black", lwd = 1, lty = 2)
+  legend("bottomright", legend = c("IBS", "EBS"), 
+    col = c("steelblue", "brown"), 
+    lty = 1, box.lty=0, box.lwd=1)
   
-    ################################
-    ### IBS batch means calculations
-    ################################
-    ibs_batches     <- c(ibs_batches, as.vector(ibs_jasa(sg_ct, alp, cns = cns1)))
-  
-    ###########
-    ### EBS calculation 
-    ###########
-    ebs_batches <- c(ebs_batches, as.vector(ebs_batch(sg_ct, alp, cns = cns, bet_typ = 2)))
-       
-    
-}
-  ibs_new <- quantile(ibs_batches, probs = runif(nsampl))
-  ebs_new <- quantile(ebs_batches, probs = runif(nsampl))
-  pdf(file = paste("out/qq_dim_", nparm, "_sam_", n, ".pdf"))
-  par(mfrow = c(2, 1))
-  
-  qqnorm(ibs_new, pch = 1, frame = FALSE, main = "IBS")
-  qqline(ibs_new, col = "steelblue", lwd = 2)
-  
-  qqnorm(ebs_new, pch = 1, frame = FALSE, main = "EBS")
-  qqline(ebs_new, col = "steelblue", lwd = 2)
   dev.off()
 }
