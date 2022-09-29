@@ -97,7 +97,7 @@ col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato"
 lin_typ <- c(6, 3, rep(1,3), rep(2,3))
 names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), expression(paste("c = 0.1, ", beta[2])), expression(paste("c = 0.1, ", beta[3])), expression(paste("LS c = 0.1, ", beta[1])), expression(paste("LS c = 0.1, ", beta[2])), expression(paste("LS c = 0.1, ", beta[3])))
 
-# constant c = 1 is not needed as batch size is too large, beta1 and beta2 are  is not needed
+# constant c = 1 is not needed as batch size is too large, beta2 and beta3 are   not needed
 index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
