@@ -1,25 +1,20 @@
-###############################################################
-## This file contains miscellaneous functions
-## that are used in the paper
-###############################################################
+# Miscellaneous functions used in the paper
 
-
-## Function to calculate the SQRT of a matrix using SVD
 sqrt_mat <- function(sigm)
 {
   
   decomp_sigm <- svd(sigm)
-  dig_sig <- decomp_sigm$d
-  v_mat <- decomp_sigm$u
-  sqrt_sig <- v_mat %*% diag((dig_sig)^(1/2)) %*% t(v_mat)
+  dig_sig     <- decomp_sigm$d
+  v_mat       <- decomp_sigm$u
+  sqrt_sig    <- v_mat %*% diag((dig_sig)^(1/2)) %*% t(v_mat)
 
   return(sqrt_sig)
 
 }
 
 
-## Covmatrix matrix of dim nparm
-## Of kind Toeplitz and and equivariance
+# Covmatrix matrix of dim nparm
+# Of kind Toeplitz and and equivariance
 X_mat <- function(nparm, rho)
 {
   equiv <- matrix(rho, nrow = nparm, ncol = nparm)
@@ -34,12 +29,13 @@ X_mat <- function(nparm, rho)
 
 
 
-# Function that finds the simultaneous confidence intervals from
-# the estimate of the covariance matrix
+# Simultaneous confidence intervals 
 
 # Function is from Assessing simultaneous paper by Robertson et.al
 # JCGS. Code from JCGS website
+
 ###############################################################
+
 ## Function produces simultaenous intervals
 ## n.sim  = to calculate the degrees of freedom
 ## Sigma = estimated asymptotic covariance matrix
@@ -47,27 +43,28 @@ X_mat <- function(nparm, rho)
 ## center = the mean estimate around which to create intervals
 ## epsilon = tolerance level for SI algorithm
 ## n.star = maximum number of iterations for the algorithm
+
 ###############################################################
 
 
 new.sim.int <-  function(Sigma, conf = .90, center = rep(0,dim(Sigma)[1]),
- epsilon = .001,  n.star = 100)
+                epsilon = .001,  n.star = 100)
 {
 
-  p <- dim(Sigma)[1]
+  p          <- dim(Sigma)[1]
   crit.under <- qnorm(1-(1-conf)/2)
-  crit.over <- qnorm(1-(1-conf)/2/p)
+  crit.over  <- qnorm(1-(1-conf)/2/p)
 
   i <- 1
-  LB.i <- crit.under*sqrt(diag(Sigma))
-  UB.i <- crit.over*sqrt(diag(Sigma))
-  X.i <- (LB.i+UB.i)/2
+  LB.i  <- crit.under*sqrt(diag(Sigma))
+  UB.i  <- crit.over*sqrt(diag(Sigma))
+  X.i   <- (LB.i+UB.i)/2
   F.X.i <- pmvnorm(lower=c(-X.i),upper=c(X.i),sigma=Sigma)
 
   while(abs(F.X.i[1] - conf) > epsilon & i <= n.star)
   {
     i = i + 1
-    ##equality should never happen since then it would terminate?
+    ## equality should never happen since then it would terminate?
     if(F.X.i[1] - conf < 0)
     {
       LB.i <- X.i

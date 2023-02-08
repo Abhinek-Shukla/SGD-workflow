@@ -1,7 +1,5 @@
-##########################################################
-## The file shows QQ plot for different estimators
-##########################################################
-## Function to calculate the SQRT of a matrix using SVD
+# The file shows QQ plot for different estimators
+
 sqrt_mat <- function(sigm)
 {
   
@@ -21,30 +19,27 @@ grad_lin <- function(sg,y,x)
 } 
 
 
-##############################################
-## File contains the function to calculate
-## the EBS estimator (with or without lugsail)
-##############################################
-
-## Obtains value of bound on MSE of EBS 
+# Obtains value of bound on MSE of EBS 
 b_our <- function(beta1, n, alpha1)
 {
   bn <- n^(beta1)
   an <- n/bn
-  return( log(n^(-alpha1/4) + an^(-1/2) + bn^(alpha1-1) + bn^(-1/2) * n^(alpha1/2) + an^(-1) + n^(-2*alpha1) * bn) )
+  return( log(n^(-alpha1/4) + an^(-1/2) + bn^(alpha1-1) + 
+                bn^(-1/2) * n^(alpha1/2) + an^(-1) + n^(-2*alpha1) * bn) )
 }
 
 ## Optimal value of beta for alpha and sample size
 opt_beta_fn <- function(alpha, m)
 { 
-  opt_beta <- optim(.6, fn = b_our, lower = alpha, upper = 1, n = m, alpha1 = alpha, method = "L-BFGS-B")$par
+  opt_beta <- optim(.6, fn = b_our, lower = alpha, upper = 1, n = m, 
+                    alpha1 = alpha, method = "L-BFGS-B")$par
   return(opt_beta)
 }
 
 ## EBS estimator function
 ebs_batch <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
 {
-  n <- nrow(sgd)  # Number of SGD iterates
+  n <- nrow(sgd)  
   nparm <- ncol(sgd)
   tot_mean <- colMeans(sgd)
   
@@ -55,34 +50,34 @@ ebs_batch <- function(sgd, alp = 0.51, cns = 0.1, bet_typ = 1, lug = 1)
   
   #Smart batching
   two_seq <- 2^(seq(10:40))
-  bn <- min(two_seq[two_seq >= cns * n^bet]) 	# Equal Batch Size Configuration
-  an <- floor(n/bn) 	# No. of batches
+  bn <- min(two_seq[two_seq >= cns * n^bet]) 
+  an <- floor(n/bn) 
   
-  ebs <- t(sapply(1 : an, function(i) colMeans( matrix(sgd[(bn*(i - 1) + 1) : (bn*i), ], ncol = nparm ))))
+  ebs <- t(sapply(1 : an, function(i) colMeans( 
+                  matrix(sgd[(bn*(i - 1) + 1) : (bn*i), ], ncol = nparm ))))
   ebs <- sqrt(bn) * scale(ebs, center = colMeans(sgd), scale = FALSE)
   return(ebs)
 }
 
 
-##############################################
-## Function to calculate the IBS estimator 
-##############################################
+# Calculate IBS
 
 ibs_jasa <- function(sgd, alp = 0.51, cns = 1) 
 {
   n <- nrow(sgd)
   nparm <- ncol(sgd)
   
-  # IBS Estimators
   am <- ceiling( cns*(1 : 1e3)^(2/(1 - alp)))
   am <- c(am[am < n], (n+1))
   
   # Batch Sizes
   bm <- diff(am)
 
-  batch_means <- t(sapply(1:(length(am)-1), function(i) colMeans( matrix(sgd[am[i] : (am[i+1]-1), ], ncol = nparm ))))
+  batch_means <- t(sapply(1:(length(am)-1), function(i) colMeans(
+    matrix(sgd[am[i] : (am[i+1]-1), ], ncol = nparm ))))
   
-  batch_means <- sqrt(bm)*scale(batch_means, center = colMeans(sgd), scale = FALSE)
+  batch_means <- sqrt(bm)*scale(batch_means, center = 
+                                  colMeans(sgd), scale = FALSE)
   return(batch_means)
 }
 
@@ -93,13 +88,12 @@ linear_qq <- function( nparm = 5, cns = c(0.1, 1),
                         burn_in = 1000, cns1 = 0.1, Iter = 2, nsampl = 1000)
 {
 
-  n <- sam_siz
-  parm <- seq(1 / nparm, 1, length.out = nparm)  #Parameter space
+  n    <- sam_siz
+  parm <- seq(1 / nparm, 1, length.out = nparm)  
   
-  sg <- matrix(nrow = n + burn_in, ncol = nparm) 
-  sg_ct <- matrix(nrow = n, ncol = nparm) # sgd iterates after dropping burn-in samples
+  sg    <- matrix(nrow = n + burn_in, ncol = nparm) 
+  sg_ct <- matrix(nrow = n, ncol = nparm) 
 
-  # Following matrix will be used in generating regressors X
   sqrt_sig <- diag(nparm)
   ibs_batches <- ebs_batches <- vector()
   
@@ -107,41 +101,38 @@ linear_qq <- function( nparm = 5, cns = c(0.1, 1),
   {  
     
     # Generating data of Maximum Sample Size
-    x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in), ncol = nparm)
+    x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in),
+                ncol = nparm)
     x <- x %*% sqrt_sig
     y <- x %*% parm + rnorm((n + burn_in), mean = 0, sd = 1)
     
-    # Learning Rate
     eta <- numeric(n + burn_in)
     
-    sg[1, ] <- rep(0, nparm)  # always starting from the zero vector estimate
+    sg[1, ] <- rep(0, nparm)  
     
-    ## Generating full SGD sequence -- this takes time
+    # Generating full SGD sequence -- this takes time
     for(i in 2 : (n + burn_in))
     {
       eta[i] <- i^( - alp)
-      sg[i, ] <- sg[i - 1, ] - eta_cns * eta[i] * grad_lin(sg[i - 1, ], y[i], x[i, ]) 
+      sg[i, ] <- sg[i - 1, ] - eta_cns * eta[i] * grad_lin(
+                                         sg[i - 1, ], y[i], x[i, ]) 
     }
-    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]      # Removing burn in
+    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]     
       
-    sg_ct <- sg_ct_full # main process inside this loop
-    asg <- colMeans(sg_ct) # Averaged SGD
+    sg_ct <- sg_ct_full 
+    asg <- colMeans(sg_ct) 
     
-      ################################
-      ### IBS batch means calculations
-      ################################
-      ibs_batches <- c(ibs_batches, 
-        as.vector(ibs_jasa(sg_ct, alp, cns = cns1)))
+    ibs_batches <- c(ibs_batches, as.vector(ibs_jasa(sg_ct, alp, 
+                                                     cns = cns1)))
     
-      ###########
-      ### EBS calculation 
-      ###########
+      # EBS calculation 
       ebs_batches <- c(ebs_batches, 
         as.vector(ebs_batch(sg_ct, alp, cns = cns, bet_typ = 2)))
          
       
   }
 
+  # Save plot 
   pdf(file = paste("out/qq_dim_", nparm, "_sam_", n, ".pdf"),
   height = 5, width = 5)
    
