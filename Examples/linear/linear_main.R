@@ -1,14 +1,10 @@
-# The file contains the functions required to run
-# comparative inference for SGD for different estimators
+#######################################
+## File contains the main function
+## that does replications for the implementation
+## of the linear reg SGD inference problem
+#######################################
 
 
-
-
-# Gradient Function for Linear Model
-grad_lin <- function(sg,y,x)
-{
-  (x %*% (sg) - y) %*% x
-} 
 
 # Combining function to get outputs from  parallelization
 comb <- function(x, ...) 
@@ -142,30 +138,11 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
                           list(), list(), list(), list(), list(),list(), list(), list(), 
                           list(), list() )) %dopar% 
   {
-    
-    
-    x <- matrix(rnorm((n + burn_in) * nparm), nrow = (n + burn_in),
-                ncol = nparm)
-    x <- x %*% sqrt_sig
-    y <- x %*% parm + rnorm((n + burn_in), mean = 0, sd = 1)
-    
-  
-    eta <- numeric(n + burn_in)
-    
-    sg[1, ] <- rep(0, nparm)  
+    # Obtain the full SGD process
+    sg_ct_full <- linear_sgd(n = n, burn_in = burn_in, parm = parm, 
+                          alp = alp, sqrt_sig = sqrt_sig, eta_cns = eta_cns)
 
-    # Generating full SGD sequence -- this takes time
-    for(i in 2 : (n + burn_in))
-    {
-      eta[i] <- i^( - alp)
-      sg[i, ] <- sg[i - 1, ] - eta_cns * 
-                               eta[i] * grad_lin( sg[i - 1, ], y[i], x[i, ]) 
-    }
-    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]      
-    
-
-
-   
+    # for each subset asked for, calculate coverate and other things
     for(smpl in 1:length(sam_siz)) 
     { 
       sg_ct <- sg_ct_full[1 : sam_siz[smpl], ]  
@@ -173,26 +150,21 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
       
       # constant next to the volume of an ellipsoidal confidence region
       tmp_vol <- 2*(pi^(nparm/2)) / (nparm * gamma(nparm/2)) * 
-                                    (crt_val/sam_siz[smpl]) ^ (nparm/2) 
+                                    (crt_val/sam_siz[smpl])^(nparm/2) 
 
-      # Oracle calculations
-    
-      volm_orc[cn, smpl]  <- tmp_vol * (det(sigm)) ^ (1 / 2)
-      cover_orc[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm)
-                             %*% qr.solve(sigm) %*% (asg - parm) <= crt_val)  
-      
+      # Oracle calculations    
+      volm_orc[cn, smpl]         <- tmp_vol * (det(sigm)) ^ (1 / 2)
+      cover_orc[cn, smpl]        <- as.numeric(sam_siz[smpl]  * t(asg - parm)
+                                      %*% qr.solve(sigm) %*% (asg - parm) <= crt_val)        
       tmp_orc                    <- new.sim.int(sigm/sam_siz[smpl], conf = 
                                                   0.95, center = asg)$ints
       leng_orc                   <- tmp_orc[, 2] - tmp_orc[, 1]      
-      marg_volm_orc[cn, smpl]    <- (prod(leng_orc) / volm_orc[cn, smpl])
-                                                          ^ (1 / nparm)      
+      marg_volm_orc[cn, smpl]    <- (prod(leng_orc) / volm_orc[cn, smpl])^ (1 / nparm)      
       marg_sim_cov_orc[cn, smpl] <- as.numeric(sum(tmp_orc[, 1] <= parm & 
                                               tmp_orc[, 2] >= parm) == nparm)
 
-      # IBS calculations
-
+      ## IBS calculations
       ibs_mean     <- ibs_jasa_mean(sg_ct, alp, cns = cns1)
-
       forb_ibs[cn, smpl]  <-  norm(ibs_mean - sigm, "F")/ norm(sigm, "F")  
       volm_ibs[cn, smpl]  <- tmp_vol * (det(ibs_mean)) ^ (1 / 2)
       cover_ibs[cn, smpl] <- as.numeric(sam_siz[smpl]  * t(asg - parm) 
@@ -204,22 +176,19 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
       leng_ibs <- tmp_ibs[, 2] - tmp_ibs[, 1]
       marg_sim_cov_ibs[cn, smpl] <- as.numeric(sum(tmp_ibs[, 1] 
                                     <= parm &  tmp_ibs[, 2] >= parm) == nparm)
-      marg_volm_ibs[cn, smpl] <- (prod(leng_ibs) / volm_ibs[cn, smpl])
-                                                  ^(1 / nparm)
+      marg_volm_ibs[cn, smpl] <- (prod(leng_ibs) / volm_ibs[cn, smpl])^(1/nparm)
+
 
       count <- 1
-    
-      for(mk in 1 : length(cns))
+      for(mk in 1:length(cns))
       { 
-        for(bt_typ in 1 : 3)
+        for(bt_typ in 1:3)
         { 
-         
           # EBS calculation 
-         
           ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
           
           forb_ebs[smpl, cn, count]  <- norm(ebs_mean - sigm, "F")/ norm(sigm, "F")
-          volm_ebs[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) ) ^ (1 / 2)
+          volm_ebs[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) )^(1/2)
           cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm) 
                                         %*% qr.solve(ebs_mean) %*% 
                                           (asg - parm) <= crt_val)
@@ -231,11 +200,10 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
           ratio_ibs_ebs[smpl, cn, count, ]  <- leng_ibs/leng_ebs
           marg_sim_cov_ebs[smpl, cn, count] <- as.numeric(sum(tmp_ebs[, 1] 
                                                <= parm &  tmp_ebs[, 2] >= parm) == nparm)
-          marg_volm_ebs[smpl, cn, count]    <- (prod(leng_ebs) / volm_ebs[smpl, cn, count])
-                                                                               ^(1 / nparm)
+          marg_volm_ebs[smpl, cn, count]    <- (prod(leng_ebs) / volm_ebs[smpl, cn, count])^(1 / nparm)
+          
           
           # EBS Lugsail calculation 
-
           ebs_mean                      <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
           
           forb_ebs_ls[smpl, cn, count]  <- norm(ebs_mean - sigm, "F")/ norm(sigm, "F")
@@ -250,7 +218,7 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
           marg_sim_cov_ebs_ls[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls[, 1] <= parm 
                                                   &  tmp_ebs_ls[, 2] >= parm) == nparm)
           marg_volm_ebs_ls[smpl, cn, count]    <- (prod(leng_ebs_ls) / volm_ebs_ls[smpl,
-                                                                cn, count])^(1 / nparm)          
+                                                                cn, count])^(1/nparm)          
           
           ratio_ibs_ebs_ls[smpl, cn, count, ] <- leng_ibs/leng_ebs_ls
           ratio_ebs_ls_ebs[smpl, cn, count, ] <- leng_ebs_ls/leng_ebs

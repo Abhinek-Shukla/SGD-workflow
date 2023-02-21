@@ -1,7 +1,7 @@
 
-R version 4.0.2 (2020-06-22) -- "Taking Off Again"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-apple-darwin17.0 (64-bit)
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -26,51 +26,42 @@ Loading required package: parallel
 > library(foreach)
 > library(mcmcse)
 > library(mvtnorm)
+> source("linear_back_funcs.R")
 > source("linear_main.R")
 > source("./../ebs.R")
 > source("./../ibs.R")
 > source("./../misc.R")
 > 
 > 
-> ####################################################################################################################
-> ##     p = 5 runs   
-> ####################################################################################################################
-> max_sam <- 1e6
+> # p = 5 runs   
+> max_sam <-  5e6
 > nparm <- 5
-> ncores <- 2
-> Reps <- 2
+> ncores <- 60
+> Reps <- 1000
 > 
-> #Toeplitz and Equivariance-covariance matrices definitions
+> # covariance matrix of X calculations
 > rho <- 0.5
 > foo <- X_mat(nparm = nparm, rho = rho)
 > equiv_mat <- foo[[1]]
 > toep_mat <- foo[[2]]
 > 
+> linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores,
++             nam_matrix = "indep", cns = 0.1)
+> linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores,
++             nam_matrix = "toep", cns = 0.1)
+> linear_reps(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores,
++             nam_matrix = "equiv", cns = 0.1)
 > 
-> linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1, 1))
-> linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep")
-> linear_reps(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv")
 > 
-> ####################################################################################################################
-> 
-> 
-> ####################################################################################################################
-> ##     p = 20 runs   
-> ####################################################################################################################
-> max_sam <- 1e6
+> # p = 20 runs   
+> max_sam <- 5e6
 > nparm <- 20
-> ncores <- 2
-> Reps <- 2
+> ncores <- 60
+> Reps <- 1000
 > 
-> #Toeplitz and Equivariance-covariance matrices definitions
-> rho <- 0.5
-> foo <- X_mat(nparm = nparm, rho = rho)
-> equiv_mat <- foo[[1]]
-> toep_mat <- foo[[2]]
+> linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, 
++             nam_matrix = "indep", cns = 0.1, cns1 = 0.1, eta_cns = 1)
 > 
-> linear_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "indep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
-> linear_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "toep", cns = c(0.1), cns1 = 0.1, eta_cns = 1)
-> linear_reps (max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores, nam_matrix = "equiv", cns = c(0.1), cns1 = 0.0005, eta_cns = 1)
-Error in { : task 1 failed - "singular matrix 'a' in solve"
-Calls: linear_reps -> %dopar% -> <Anonymous>
-Execution halted
+> proc.time()
+      user     system    elapsed 
+399284.283  10856.423   7337.161 
