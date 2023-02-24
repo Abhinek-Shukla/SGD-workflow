@@ -1,0 +1,78 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> set.seed(1)
+> library(MASS)
+> library(doParallel)
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+> library(foreach)
+> library(mcmcse)
+> library(mvtnorm)
+> source("lad_main.R")
+> source("lad_back_funcs.R")
+> source("./../ebs.R")
+> source("./../ibs.R")
+> source("./../misc.R")
+> 
+> 
+> # p = 5 runs   
+> # max_sam <- 5e6
+> # nparm <- 5
+> # ncores <- 60
+> # Reps <- 1000
+> 
+> # rho <- 0.5
+> # foo <- X_mat(nparm = nparm, rho = rho)
+> # equiv_mat <- foo[[1]]
+> # toep_mat <- foo[[2]]
+> 
+> # lad_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores,
+> #          nam_matrix = "indep", cns = .1, cns1 = 1)
+> # lad_reps(max_sam = max_sam, A = toep_mat,  nparm = nparm, Rep = Reps, ncores_par = ncores,
+> #          nam_matrix = "toep", cns = .1, cns1 = 1)
+> # lad_reps(max_sam = max_sam, A = equiv_mat, nparm = nparm, Rep = Reps, ncores_par = ncores,
+> #          nam_matrix = "equiv", cns = .1, cns1 = 1)
+> 
+> # p = 20 runs   
+> max_sam <- 5e6
+> nparm <- 20
+> ncores <- 60
+> Reps <- 1000
+> 
+> rho <- 0.5
+> foo <- X_mat(nparm = nparm, rho = rho)
+> equiv_mat <- foo[[1]]
+> toep_mat <- foo[[2]]
+> 
+> 
+> lad_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores,
++          nam_matrix = "indep", cns = 0.1, cns1 = 0.1, eta_cns = 1)
+> lad_reps(max_sam = max_sam, A = toep_mat, nparm = nparm, Rep = Reps, ncores_par = ncores,
++          nam_matrix = "toep", cns = 0.1, cns1 = 0.1, eta_cns = 1)
+> lad_reps(max_sam = max_sam, A = equiv_mat,nparm = nparm, Rep = Reps, ncores_par = ncores,
++          nam_matrix = "equiv", cns = 0.1, cns1 = 0.1, eta_cns = 1)
+> 
+> 
+> 
+> 
+> proc.time()
+     user    system   elapsed 
+618233.52  19969.64  11377.75 

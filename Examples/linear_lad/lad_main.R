@@ -1,10 +1,9 @@
-# Functions required to run comparative inference for SGD
+#######################################
+## File contains the main function
+## that does replications for the implementation
+## of the LAD reg SGD inference problem
+#######################################
 
-# Gradient Function for LAD Model
-grad_lad <- function(sg,y,x, tau = 0.5)
-{
-  (tau - as.numeric( y - t(x) %*% sg < 0 )) %*% x
-} 
 
 # Combining function to get outputs from  parallel
 comb <- function(x, ...) 
@@ -143,36 +142,16 @@ lad_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm),
                                          list(), list(), list() )) %dopar% 
   {
     
-    # Generating data of Maximum Sample Size
-    x <- matrix(rnorm((n + burn_in) * nparm),
-                nrow = (n + burn_in), ncol = nparm)
-    x <- x %*% sqrt_sig
-    y <- x %*% parm + rdoublex(n + burn_in, mu = 0,lambda = 1)
-    
-    # Learning Rate
-    eta <- numeric(n + burn_in)
-    
-    sg[1, ] <- rep(0, nparm)  
-
-    ## Generating full SGD sequence -- this takes time
-    for(i in 2 : (n + burn_in))
-    {
-      eta[i] <- i^( - alp)
-      sg[i, ] <- sg[i - 1, ] + eta_cns * 
-        eta[i] * grad_lad(sg[i - 1, ], y[i], x[i, ]) 
-    }
-    sg_ct_full <- sg[(burn_in + 1) : (n + burn_in), ]
-    
-
-
+    # Obtain the full SGD process
+    sg_ct_full <- lad_sgd(n = n, burn_in = burn_in, parm = parm, 
+                          alp = alp, sqrt_sig = sqrt_sig, eta_cns = eta_cns)
     for(smpl in 1:length(sam_siz)) 
     { 
       sg_ct <- sg_ct_full[1 : sam_siz[smpl], ]  
       asg <- colMeans(sg_ct)                    
       
       # constant next to the volume of an ellipsoidal confidence region
-      tmp_vol <- 2*(pi^(nparm/2)) / (nparm * gamma(nparm/2)) 
-      * (crt_val/sam_siz[smpl]) ^ (nparm/2) 
+      tmp_vol <- 2*(pi^(nparm/2)) / (nparm * gamma(nparm/2)) * (crt_val/sam_siz[smpl]) ^ (nparm/2) 
 
       # Oracle calculations
       
@@ -218,13 +197,10 @@ lad_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm),
           
           ebs_mean <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 1)
           
-          forb_ebs[smpl, cn, count]  <- norm(ebs_mean - sigm, "F")
-                                        / norm(sigm, "F")
-          volm_ebs[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) ) 
-                                        ^ (1 / 2)
-          cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl]  
-                                        * t(asg - parm) %*% qr.solve(ebs_mean) 
-                                        %*% (asg - parm) <= crt_val)
+          forb_ebs[smpl, cn, count]  <- norm(ebs_mean - sigm, "F") / norm(sigm, "F")
+          volm_ebs[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) ) ^ (1 / 2)
+          cover_ebs[smpl, cn, count] <- as.numeric(sam_siz[smpl] * t(asg - parm) %*% 
+                          qr.solve(ebs_mean) %*% (asg - parm) <= crt_val)
 
           
           tmp_ebs  <- new.sim.int(ebs_mean/sam_siz[smpl], conf = 0.95, 
@@ -236,8 +212,7 @@ lad_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm),
                                                <= parm &  tmp_ebs[, 2] >= parm)
                                                == nparm)
           marg_volm_ebs[smpl, cn, count]    <- (prod(leng_ebs) /
-                                               volm_ebs[smpl, cn, count])
-                                               ^(1 / nparm)
+                                               volm_ebs[smpl, cn, count])^(1 / nparm)
          
           # EBS Lugsail calculation 
           
@@ -245,19 +220,14 @@ lad_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5, A = diag(nparm),
           
           forb_ebs_ls[smpl, cn, count]  <- norm(ebs_mean - sigm, 
                                                 "F")/ norm(sigm, "F")
-          volm_ebs_ls[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) )
-                                           ^ (1 / 2)
-          cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]  
-                                           * t(asg - parm) %*% qr.solve(ebs_mean) 
-                                           %*% (asg - parm) <= crt_val)
+          volm_ebs_ls[smpl, cn, count]  <- tmp_vol * (det(ebs_mean) )^ (1 / 2)
+          cover_ebs_ls[smpl, cn, count] <- as.numeric(sam_siz[smpl]* t(asg - parm) %*% qr.solve(ebs_mean)  %*% (asg - parm) <= crt_val)
 
           tmp_ebs_ls  <- new.sim.int(ebs_mean/sam_siz[smpl],
                          conf = 0.95, center = asg)$ints
           leng_ebs_ls <- tmp_ebs_ls[, 2] - tmp_ebs_ls[, 1]
           
-          marg_sim_cov_ebs_ls[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls[, 1]
-                                                  <= parm &  tmp_ebs_ls[, 2] 
-                                                  >= parm) == nparm)
+          marg_sim_cov_ebs_ls[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls[, 1] <= parm &  tmp_ebs_ls[, 2] >= parm) == nparm)
           marg_volm_ebs_ls[smpl, cn, count]    <- (prod(leng_ebs_ls) / 
                                                    volm_ebs_ls[smpl, cn,
                                                    count])^(1 / nparm)          
