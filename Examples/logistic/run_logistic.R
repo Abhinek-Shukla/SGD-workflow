@@ -13,12 +13,9 @@ source("./../misc.R")
 # First download train.csv and test.csv from the following link 
 # https://www.kaggle.com/competitions/santander-customer-transaction-prediction/data
 
-dta_org <- read.csv(file="train_cust_trans.csv", header=FALSE, 
-                    sep=",", stringsAsFactors=FALSE)
-names(dta_org) <- NULL
-dta            <- as.matrix(dta_org[-1, 2 : 52])
-rownames(dta)  <- NULL
-dta            <- matrix(as.numeric(dta), nrow = nrow(dta), ncol = ncol(dta))
+dta_org <- read.csv(file="training.csv", sep=",")
+dta            <- dta_org[, -1]
+# dta            <- matrix(as.numeric(dta), nrow = nrow(dta), ncol = ncol(dta))
 # Transform into -1,1 type of binary setup, Chen AOS (2020).
 dta[, 1]       <- 2 * dta[, 1] - 1 
 
