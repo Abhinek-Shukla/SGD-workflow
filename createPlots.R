@@ -32,7 +32,7 @@ an <- out[2, ]
 pdf("plots/batchsize.pdf", height = 5, width = 5)
 plot(n, 2*c*n^(beta), type = 'l', 
      ylab = "Batch Size", xlab = "Iteration Length",
-     lty = 3, col = "purple", lwd = 1.1)
+     lty = 3, col = "purple", lwd = 1.8)
 lines(n, c*n^(beta), lty = 3, col = "purple", lwd = 1.1)
 lines(n, bn, col = "black")
 dev.off()
@@ -41,7 +41,7 @@ pdf("plots/nbatch.pdf", height = 5, width = 5)
 plot(n, n^(1-beta)/c, type = 'l',
      ylab = "Number of Batches", xlab = "Iteration Length",
      lty = 3, col = "purple", lwd = 1.1)
-lines(n, n^(1 - beta)/c/2, lty = 3, col = "purple", lwd = 1.1)
+lines(n, n^(1 - beta)/c/2, lty = 3, col = "purple", lwd = 1.8)
 lines(n, an, col = "black")
 dev.off()
 
@@ -1404,3 +1404,78 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
+
+##########################################################
+## Figure xx: Logistic Example
+##########################################################
+
+load("Examples/logistic/out/logistic_pred.Rdata")
+pdf("plots/logistic_misclass.pdf", height = 6, width = 6)
+plot(cutoffs, misclass, type = 'l', xlab = "Softmax Threshold", ylab = "Misclassification Rate")
+lines(cutoffs, misclass.lb, col = "blue")
+legend("topright", legend = c("No confidence intervals", "With confidence intervals"),
+  col = c("black", "blue"), lty = 1)
+dev.off()
+
+
+
+##########################################################
+## Table xx: Logistic Example
+##########################################################
+
+
+load("Examples/logistic/out/logistic_real_dim_50.RData")
+
+
+# Joint region Volume Comparison
+c( volm_ibs[2], volm_ebs[2, 2], volm_ebs_ls[2, 2])
+
+# Marginal friendly inferences 
+
+# Max Ratio of lengths of intervals among different dimensions 
+ibs_ebs_comprs_max <-  max(ratio_ibs_ebs[2, 2, ])
+ibs_ebs_ls_comprs_max <-  max(ratio_ibs_ebs_ls[2, 2, ])
+ebs_ls_ebs_comprs_max <-  max(ratio_ebs_ls_ebs[2, 2, ])
+c(ibs_ebs_comprs_max, ibs_ebs_ls_comprs_max, ebs_ls_ebs_comprs_max)
+
+
+# min Ratio of lengths of intervals among different dimensions 
+ibs_ebs_comprs_min <-  min(ratio_ibs_ebs[2, 2, ])
+ibs_ebs_ls_comprs_min <-  min(ratio_ibs_ebs_ls[2, 2, ])
+ebs_ls_ebs_comprs_min <-  min(ratio_ebs_ls_ebs[2, 2, ])
+c(ibs_ebs_comprs_min, ibs_ebs_ls_comprs_min, ebs_ls_ebs_comprs_min)
+
+
+# Mean Ratio of lengths of intervals among different dimensions 
+ibs_ebs_comprs_mean <-  mean(ratio_ibs_ebs[2, 2, ])
+ibs_ebs_ls_comprs_mean <-  mean(ratio_ibs_ebs_ls[2, 2, ])
+ebs_ls_ebs_comprs_mean <-  mean(ratio_ebs_ls_ebs[2, 2, ])
+c(ibs_ebs_comprs_mean, ibs_ebs_ls_comprs_mean, ebs_ls_ebs_comprs_mean)
+
+# Marginal friendly region volume of cuboids  inflated with respect to joint 
+c(marg_volm_ibs[2], marg_volm_ebs[2, 2], marg_volm_ebs_ls[2, 2])
+
+
+
+
+tmp1 <- margn_up_low[[1]]
+len_1 <- (tmp1[, 2] - tmp1[, 1])
+indx <- c(1 : 5, 46 : 50)
+tmp2 <- tmp1[order(len_1), ]
+
+tmp2[indx, ]#IBS
+
+tmp1 <- margn_up_low[[4]]
+len_1 <- (tmp1[, 2] - tmp1[, 1])
+indx <- c(1 : 5, 46 : 50)
+tmp2 <- tmp1[order(len_1), ]
+
+tmp2[indx, ]#EBS
+
+
+tmp1 <- margn_up_low[[5]]
+len_1 <- (tmp1[, 2] - tmp1[, 1])
+indx <- c(1 : 5, 46 : 50)
+tmp2 <- tmp1[order(len_1), ]
+
+tmp2[indx, ] #EBS + Lugsail

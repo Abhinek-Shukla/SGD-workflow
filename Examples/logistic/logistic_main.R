@@ -144,14 +144,12 @@ for(smpl in 1 : length(sam_siz))
     # EBS calculate 
     ebs_mean                     <- ebs_batch_mean(sg_ct, alp, cns[mk], 
                                                    bt_typ, 1)
-    volm_ebs[smpl, count]        <- (tmp_vol * (det(ebs_mean) ) 
-                                     ^ (1 / 2))^( 1/ nparm)
+    volm_ebs[smpl, count]        <- (tmp_vol * (det(ebs_mean) )^(1 / 2))^( 1/ nparm)
     tmp_ebs                      <- new.sim.int(ebs_mean/sam_siz[smpl], 
                                                 conf = 0.95, center = asg)$ints
     leng_ebs                     <- tmp_ebs[, 2] - tmp_ebs[, 1]
     ratio_ibs_ebs[smpl, count, ] <- leng_ibs/leng_ebs
-    marg_volm_ebs[smpl, count]   <- (prod(leng_ebs) ^ (1 / nparm)  
-                                    / volm_ebs[smpl, count])
+    marg_volm_ebs[smpl, count]   <- (prod(leng_ebs) ^ (1 / nparm) / volm_ebs[smpl, count])
     
     margn_up_low[[cnt]] <- tmp_ebs 
     cnt                 <- cnt + 1
@@ -159,13 +157,11 @@ for(smpl in 1 : length(sam_siz))
     # EBS Lugsail calculation 
     ebs_mean                        <- ebs_batch_mean(sg_ct, alp, cns[mk],
                                                       bt_typ, 2)
-    volm_ebs_ls[smpl, count]        <- (tmp_vol * (det(ebs_mean) ) ^ (1 / 2))
-                                        ^ (1 / nparm)
+    volm_ebs_ls[smpl, count]        <- (tmp_vol * (det(ebs_mean) ) ^ (1 / 2)) ^ (1 / nparm)
     tmp_ebs_ls                      <- new.sim.int(ebs_mean/sam_siz[smpl], 
                                                    conf = 0.95, center = asg)$ints
     leng_ebs_ls                     <- tmp_ebs_ls[, 2] - tmp_ebs_ls[, 1]
-    marg_volm_ebs_ls[smpl, count]   <- (prod(leng_ebs_ls) ^ (1 / nparm)
-                                        / volm_ebs_ls[smpl, count])         
+    marg_volm_ebs_ls[smpl, count]   <- (prod(leng_ebs_ls) ^ (1 / nparm) / volm_ebs_ls[smpl, count])         
     ratio_ibs_ebs_ls[smpl, count, ] <- leng_ibs/leng_ebs_ls
     margn_up_low[[cnt]]             <- tmp_ebs_ls 
     
