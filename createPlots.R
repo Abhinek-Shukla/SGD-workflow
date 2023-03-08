@@ -55,7 +55,7 @@ dev.off()
 load("bias/out/ebs_lugsail_bias.RData")
 
 ########## plot for alpha = 0.51
-pdf(file = "plots/ebs_bias_51.pdf")
+pdf(file = "plots/ebs_bias_51.pdf", height = 5, width = 5)
 
 # EBS bias plot against the sample size
 plot(sam_siz, out_ebs[,1], type = 'b', pch = 19, col = 'black', 
@@ -75,7 +75,7 @@ dev.off()
 
 
 ########## plot for alpha = 0.75
-pdf(file = "plots/ebs_bias_75.pdf")
+pdf(file = "plots/ebs_bias_75.pdf", height = 5, width = 5)
 # EBS bias plot against the sample size
 plot(sam_siz, out_ebs[,3], type = 'b', pch = 19, col = 'black',
      ylim = c(min(out_ebs), 0), ylab="Bias upto a constant multiple", 
@@ -315,7 +315,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Lmcover_dim5.pdf", height = 6, width = 7)
+pdf("plots/Lmcover_dim5.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -329,7 +329,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lfrob_dim5.pdf", height = 6, width = 7)
+pdf("plots/Lfrob_dim5.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -343,7 +343,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lsimul_dim5.pdf", height = 6, width = 7)
+pdf("plots/Lsimul_dim5.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -359,7 +359,7 @@ dev.off()
 
 
 
-pdf("plots/Lrelvol_dim5.pdf", height = 6, width = 7)
+pdf("plots/Lrelvol_dim5.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -477,7 +477,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Lmcover_dim5_toep.pdf", height = 6, width = 7)
+pdf("plots/Lmcover_dim5_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -491,7 +491,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lfrob_dim5_toep.pdf", height = 6, width = 7)
+pdf("plots/Lfrob_dim5_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -505,7 +505,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lsimul_dim5_toep.pdf", height = 6, width = 7)
+pdf("plots/Lsimul_dim5_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -521,7 +521,7 @@ dev.off()
 
 
 
-pdf("plots/Lrelvol_dim5_toep.pdf", height = 6, width = 7)
+pdf("plots/Lrelvol_dim5_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -641,7 +641,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Lmcover_dim5_equiv.pdf", height = 6, width = 7)
+pdf("plots/Lmcover_dim5_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -655,7 +655,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lfrob_dim5_equiv.pdf", height = 6, width = 7)
+pdf("plots/Lfrob_dim5_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -669,7 +669,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lsimul_dim5_equiv.pdf", height = 6, width = 7)
+pdf("plots/Lsimul_dim5_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -685,7 +685,7 @@ dev.off()
 
 
 
-pdf("plots/Lrelvol_dim5_equiv.pdf", height = 6, width = 7)
+pdf("plots/Lrelvol_dim5_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -856,7 +856,7 @@ names_var <- c("Oracle", "IBS", expression(paste("c = 0.1, ", beta[1])), express
 
 index <- c(1, 2, 3, 6)
 
-pdf("plots/Lmcover_dim20.pdf", height = 6, width = 7)
+pdf("plots/Lmcover_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1, -.2)))
 for(k in index)
 {
@@ -872,7 +872,7 @@ dev.off()
 
 
 
-pdf("plots/Lsimul_dim20.pdf", height = 6, width = 7)
+pdf("plots/Lsimul_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -887,7 +887,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Lfrob_dim20.pdf", height = 6, width = 7)
+pdf("plots/Lfrob_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -900,7 +900,7 @@ legend("bottom", legend = names_var2,
        box.lty=0, box.lwd=1, ncol = 2)
 dev.off()
 
-pdf("plots/Lrelvol_dim20.pdf", height = 6, width = 7)
+pdf("plots/Lrelvol_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1)))
 for(k in index)
 {
@@ -1022,7 +1022,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Ladmcover_dim20.pdf", height = 6, width = 7)
+pdf("plots/Ladmcover_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(-.2, cover_all[, index], 1)))
 for(k in index)
 {
@@ -1036,7 +1036,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladfrob_dim20.pdf", height = 6, width = 7)
+pdf("plots/Ladfrob_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -1050,7 +1050,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladsimul_dim20.pdf", height = 6, width = 7)
+pdf("plots/Ladsimul_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -1066,7 +1066,7 @@ dev.off()
 
 
 
-pdf("plots/Ladrelvol_dim20.pdf", height = 6, width = 7)
+pdf("plots/Ladrelvol_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -1183,7 +1183,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Ladmcover_dim20_toep.pdf", height = 6, width = 7)
+pdf("plots/Ladmcover_dim20_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(-.2, cover_all[, index], 1)))
 for(k in index)
 {
@@ -1197,7 +1197,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladfrob_dim20_toep.pdf", height = 6, width = 7)
+pdf("plots/Ladfrob_dim20_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -1211,7 +1211,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladsimul_dim20_toep.pdf", height = 6, width = 7)
+pdf("plots/Ladsimul_dim20_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -1227,7 +1227,7 @@ dev.off()
 
 
 
-pdf("plots/Ladrelvol_dim20_toep.pdf", height = 6, width = 7)
+pdf("plots/Ladrelvol_dim20_toep.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -1345,7 +1345,7 @@ index <- c(1, 2, 3, 6)
 
 names_var2 <- c("Oracle", "IBS", "EBS", "Lugsail-EBS")
 
-pdf("plots/Ladmcover_dim20_equiv.pdf", height = 6, width = 7)
+pdf("plots/Ladmcover_dim20_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(-.2, cover_all[, index], 1)))
 for(k in index)
 {
@@ -1359,7 +1359,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladfrob_dim20_equiv.pdf", height = 6, width = 7)
+pdf("plots/Ladfrob_dim20_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, frob_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Relative Frobenius Norm", col = "red", ylim = range(c(frob_all[, index], -.2)))
 for(k in index)
 {
@@ -1373,7 +1373,7 @@ legend("bottom", legend = names_var2,
 dev.off()
 
 
-pdf("plots/Ladsimul_dim20_equiv.pdf", height = 6, width = 7)
+pdf("plots/Ladsimul_dim20_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
 for(k in index)
 {
@@ -1389,7 +1389,7 @@ dev.off()
 
 
 
-pdf("plots/Ladrelvol_dim20_equiv.pdf", height = 6, width = 7)
+pdf("plots/Ladrelvol_dim20_equiv.pdf", height = 5.5, width = 6)
 plot(sq_n, marg_covg_volm[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Volume Ratios to the pth root", col = "red", ylim = range(c(marg_covg_volm[, index], 1.02)))
 for(k in index)
 {
@@ -1418,64 +1418,3 @@ legend("topright", legend = c("No confidence intervals", "With confidence interv
 dev.off()
 
 
-
-##########################################################
-## Table xx: Logistic Example
-##########################################################
-
-
-load("Examples/logistic/out/logistic_real_dim_50.RData")
-
-
-# Joint region Volume Comparison
-c( volm_ibs[2], volm_ebs[2, 2], volm_ebs_ls[2, 2])
-
-# Marginal friendly inferences 
-
-# Max Ratio of lengths of intervals among different dimensions 
-ibs_ebs_comprs_max <-  max(ratio_ibs_ebs[2, 2, ])
-ibs_ebs_ls_comprs_max <-  max(ratio_ibs_ebs_ls[2, 2, ])
-ebs_ls_ebs_comprs_max <-  max(ratio_ebs_ls_ebs[2, 2, ])
-c(ibs_ebs_comprs_max, ibs_ebs_ls_comprs_max, ebs_ls_ebs_comprs_max)
-
-
-# min Ratio of lengths of intervals among different dimensions 
-ibs_ebs_comprs_min <-  min(ratio_ibs_ebs[2, 2, ])
-ibs_ebs_ls_comprs_min <-  min(ratio_ibs_ebs_ls[2, 2, ])
-ebs_ls_ebs_comprs_min <-  min(ratio_ebs_ls_ebs[2, 2, ])
-c(ibs_ebs_comprs_min, ibs_ebs_ls_comprs_min, ebs_ls_ebs_comprs_min)
-
-
-# Mean Ratio of lengths of intervals among different dimensions 
-ibs_ebs_comprs_mean <-  mean(ratio_ibs_ebs[2, 2, ])
-ibs_ebs_ls_comprs_mean <-  mean(ratio_ibs_ebs_ls[2, 2, ])
-ebs_ls_ebs_comprs_mean <-  mean(ratio_ebs_ls_ebs[2, 2, ])
-c(ibs_ebs_comprs_mean, ibs_ebs_ls_comprs_mean, ebs_ls_ebs_comprs_mean)
-
-# Marginal friendly region volume of cuboids  inflated with respect to joint 
-c(marg_volm_ibs[2], marg_volm_ebs[2, 2], marg_volm_ebs_ls[2, 2])
-
-
-
-
-tmp1 <- margn_up_low[[1]]
-len_1 <- (tmp1[, 2] - tmp1[, 1])
-indx <- c(1 : 5, 46 : 50)
-tmp2 <- tmp1[order(len_1), ]
-
-tmp2[indx, ]#IBS
-
-tmp1 <- margn_up_low[[4]]
-len_1 <- (tmp1[, 2] - tmp1[, 1])
-indx <- c(1 : 5, 46 : 50)
-tmp2 <- tmp1[order(len_1), ]
-
-tmp2[indx, ]#EBS
-
-
-tmp1 <- margn_up_low[[5]]
-len_1 <- (tmp1[, 2] - tmp1[, 1])
-indx <- c(1 : 5, 46 : 50)
-tmp2 <- tmp1[order(len_1), ]
-
-tmp2[indx, ] #EBS + Lugsail
