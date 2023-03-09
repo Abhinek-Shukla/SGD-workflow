@@ -1,3 +1,3 @@
-# Batch_Means_Linear_Regression
+# A Workflow for Statistical Inference in Stochastic Gradient Descent
 
-We will run some simulations to compare the performance of Chen's online batch means estimators, the ASGD and our proposed smart batch estimators.  
+Code for "A Workflow for Statistical Inference in Stochastic Gradient Descent" by Singh, Shukla, Vats
