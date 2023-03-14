@@ -464,7 +464,7 @@ for(n in 1 : length(sq_n))
 
 
 ###########################################################
-## Figure 5: Coverage and volume for 5 dimensions (Toeplitz)
+## Figure 4: Coverage and volume for 5 dimensions (Toeplitz)
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
@@ -628,7 +628,7 @@ for(n in 1 : length(sq_n))
 
 
 ###########################################################
-## Figure 6: Coverage and volume for 5 dimensions (Equivariance)
+## Figure 4: Coverage and volume for 5 dimensions (Equivariance)
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
@@ -698,61 +698,6 @@ legend("bottom", legend = names_var2,
        col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
        box.lty=0, box.lwd=1, ncol = 2)
 dev.off()
-
-
-
-
-
-###########################################################
-## Figure 7: QQ-plot for Dim 5 (independent)
-###########################################################
-
-load("Examples/linear/out/qq_dim_5_sam_50000.Rdata")
-nparm <- 5
-n <- 5e4
-
-p1 <- pnorm(seq(-.5,.5, length = 1e2))
-ibs_new <- quantile(scale(ibs_batches), probs = p1)
-ebs_new <- quantile(scale(ebs_batches), probs = p1)
-theory <- qnorm(p1)
-
-pdf(file = paste("plots/qq_dim_", nparm, "_sam_", n, ".pdf"),
-height = 5, width = 5)
-plot(theory, ibs_new, xlab = "Theoretical Quantiles", 
-  ylab = "Sample Quantiles", ylim = range(theory), type = "n")
-lines(theory, ibs_new, pch = 1, col = "steelblue")
-lines(theory, ebs_new, pch = 1, col = "brown", lwd = 2)
-lines(theory, theory, col = "black", lwd = 1, lty = 2)
-legend("bottomright", legend = c("IBS", "EBS"), 
-  col = c("steelblue", "brown"), 
-  lty = 1, box.lty=0, box.lwd=1)
-dev.off()
-
-
-
-load("Examples/linear/out/qq_dim_5_sam_1e+06.Rdata")
-nparm <- 5
-n <- 1e6
-
-p1 <- pnorm(seq(-.5,.5, length = 1e2))
-ibs_new <- quantile(scale(ibs_batches), probs = p1)
-ebs_new <- quantile(scale(ebs_batches), probs = p1)
-theory <- qnorm(p1)
-
-pdf(file = paste("plots/qq_dim_", nparm, "_sam_", n, ".pdf"),
-height = 5, width = 5)
-plot(theory, ibs_new, xlab = "Theoretical Quantiles", 
-  ylab = "Sample Quantiles", ylim = range(theory), type = "n")
-lines(theory, ibs_new, pch = 1, col = "steelblue")
-lines(theory, ebs_new, pch = 1, col = "brown", lwd = 2)
-lines(theory, theory, col = "black", lwd = 1, lty = 2)
-legend("bottomright", legend = c("IBS", "EBS"), 
-  col = c("steelblue", "brown"), 
-  lty = 1, box.lty=0, box.lwd=1)
-dev.off()
-
-
-
 
 
 
@@ -844,7 +789,7 @@ for(n in 1 : length(sq_n))
 
 
 ###########################################################
-## Figure 7: Coverage and volume for 20 dimensions (indep)
+## Figure 5: Coverage and volume for 20 dimensions (indep)
 ###########################################################
 
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
@@ -918,6 +863,63 @@ dev.off()
 
 
 
+
+
+###########################################################
+## Figure 6: QQ-plot for Dim 5 (independent)
+###########################################################
+
+load("Examples/linear/out/qq_dim_5_sam_50000.Rdata")
+nparm <- 5
+n <- 5e4
+
+p1 <- pnorm(seq(-.5,.5, length = 1e2))
+ibs_new <- quantile(scale(ibs_batches), probs = p1)
+ebs_new <- quantile(scale(ebs_batches), probs = p1)
+theory <- qnorm(p1)
+
+pdf(file = paste("plots/qq_dim_", nparm, "_sam_", n, ".pdf"),
+height = 5, width = 5)
+plot(theory, ibs_new, xlab = "Theoretical Quantiles", 
+  ylab = "Sample Quantiles", ylim = range(theory), type = "n")
+lines(theory, ibs_new, pch = 1, col = "steelblue")
+lines(theory, ebs_new, pch = 1, col = "brown", lwd = 2)
+lines(theory, theory, col = "black", lwd = 1, lty = 2)
+legend("bottomright", legend = c("IBS", "EBS"), 
+  col = c("steelblue", "brown"), 
+  lty = 1, box.lty=0, box.lwd=1)
+dev.off()
+
+
+
+load("Examples/linear/out/qq_dim_5_sam_1e+06.Rdata")
+nparm <- 5
+n <- 1e6
+
+p1 <- pnorm(seq(-.5,.5, length = 1e2))
+ibs_new <- quantile(scale(ibs_batches), probs = p1)
+ebs_new <- quantile(scale(ebs_batches), probs = p1)
+theory <- qnorm(p1)
+
+pdf(file = paste("plots/qq_dim_", nparm, "_sam_", n, ".pdf"),
+height = 5, width = 5)
+plot(theory, ibs_new, xlab = "Theoretical Quantiles", 
+  ylab = "Sample Quantiles", ylim = range(theory), type = "n")
+lines(theory, ibs_new, pch = 1, col = "steelblue")
+lines(theory, ebs_new, pch = 1, col = "brown", lwd = 2)
+lines(theory, theory, col = "black", lwd = 1, lty = 2)
+legend("bottomright", legend = c("IBS", "EBS"), 
+  col = c("steelblue", "brown"), 
+  lty = 1, box.lty=0, box.lwd=1)
+dev.off()
+
+
+
+
+
+
+
+
 ##########################################################
 ## LAD Example
 ##########################################################
@@ -925,7 +927,7 @@ dev.off()
 
 
 ##########################################################
-## Figure 11: Coverage and Volume for Dimension 20 (indep)
+## Figure 7: Coverage and Volume for Dimension 20 (indep)
 ##########################################################
 rm(list = ls())
 nparm <- 20
@@ -1086,7 +1088,7 @@ dev.off()
 
 
 ##########################################################
-## Figure 12: Coverage and Volume for Dimension 20 (indep)
+## Figure 7: Coverage and Volume for Dimension 20 (indep)
 ##########################################################
 rm(list = ls())
 nparm <- 20
@@ -1248,7 +1250,7 @@ dev.off()
 
 
 ##########################################################
-## Figure 13: Coverage and Volume for Dimension 20 (equiv)
+## Figure 7: Coverage and Volume for Dimension 20 (equiv)
 ##########################################################
 rm(list = ls())
 nparm <- 20
@@ -1406,7 +1408,7 @@ dev.off()
 
 
 ##########################################################
-## Figure xx: Logistic Example
+## Figure 8: Logistic Example
 ##########################################################
 
 load("Examples/logistic/out/logistic_pred.Rdata")
