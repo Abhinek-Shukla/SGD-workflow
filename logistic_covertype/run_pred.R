@@ -23,7 +23,7 @@ train_percent <- 70
   
   train[, 1] <- 2 * train[, 1] - 1 
   
-log_batch_fn(dta = train, test = test, 
-             train_percent = train_percent, cutoffs = cutoffs)
-load(paste0("./out/logistic_pred", train_percent, ".Rdata"))
-plot_misclass(cutoffs, train_percent, misclass, misclass.lb)
+log_batch_fn(dta = train, test = test, eta_cns = 0.0001, cutoffs = cutoffs)
+
+load("./out/logistic_pred.Rdata")
+plot_misclass(cutoffs, misclass, misclass.lb)

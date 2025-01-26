@@ -13,7 +13,7 @@
 
 log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51, 
                          burn_in = 50000, qlev = 0.95, cns = 0.1, 
-                         train_percent, cutoffs)
+                          cutoffs)
 {
   nparm = (ncol(dta) - 1)
   max_sam = nrow(dta)  
@@ -25,7 +25,7 @@ log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51,
 
   sg_ct_full  <- logistic_sgd(n = n, burn_in = burn_in, 
                 dta = dta, init = init, alp = alp, eta_cns = eta_cns,
-                epochs = 1)
+                epochs = 5)
 
   asg   <- colMeans(sg_ct_full)
 
@@ -67,7 +67,7 @@ log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51,
     misclass.lb[p] <- sum(y.test != y.hat.lb) /length(y.hat)
   }
   save(cutoffs, misclass, misclass.lb,
-       file = paste0("out/logistic_pred", train_percent, ".Rdata"))
+       file = "out/logistic_pred.Rdata")
 }
 
 
