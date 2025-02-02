@@ -4,13 +4,13 @@
 #######################################
 
 # Gradient Function for Logistic Model
-gradnt_log <- function(y, a, sg)
+gradnt_log <- function(y_this, a, beta)
 {
   
-  tmp <- as.numeric(( 1 + exp(  y * sum(a * sg))))
+  tmp <- as.numeric(( 1 + exp(y_this * sum(a * beta))))
   p_thet <- 1/ tmp
   
-  return(-y * p_thet)
+  return(-y_this * p_thet)
 }
 
 logistic_sgd <- function(n, burn_in, dta, init, alp, eta_cns, epochs)
@@ -26,8 +26,10 @@ logistic_sgd <- function(n, burn_in, dta, init, alp, eta_cns, epochs)
 
 	n.mod <- length(y) - init
 	sg <- matrix(nrow = n.mod*epochs, ncol = dim(x)[2]) 
-	sg[1,]      <- as.vector(model_train$coefficients) #MLE
-
+	temp   <- as.vector(model_train$coefficients) #MLE
+	sg[1, ] <- temp
+	sg[1, is.na(temp)]   <-  0
+	sg[1, ] <- rep(0, length(temp))
 
 	for(i in 2:(n.mod*epochs))
 	{  

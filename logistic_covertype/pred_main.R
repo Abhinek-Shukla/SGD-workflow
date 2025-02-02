@@ -12,12 +12,12 @@
 ###############################################################
 
 log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51, 
-                         burn_in = 50000, qlev = 0.95, cns = 0.1, 
+                         burn_in = 1000, qlev = 0.95, cns = 0.1, 
                           cutoffs)
 {
   nparm = (ncol(dta) - 1)
   max_sam = nrow(dta)  
-  init <- 50000
+  init <- 1000
   n <- max_sam - burn_in - init
 
   sg    <- matrix(nrow = n + burn_in - init, ncol = nparm) 
@@ -25,7 +25,7 @@ log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51,
 
   sg_ct_full  <- logistic_sgd(n = n, burn_in = burn_in, 
                 dta = dta, init = init, alp = alp, eta_cns = eta_cns,
-                epochs = 5)
+                epochs = 1)
 
   asg   <- colMeans(sg_ct_full)
 
@@ -37,23 +37,15 @@ log_batch_fn <- function(dta, test, eta_cns = .05, alp = .51,
   n.test <- length(y.test)
   pi.hat <- numeric(length = n.test)
   lb <- numeric(length = n.test)
-  lb.lug <- numeric(length = n.test)
 
   for(i in 1:n.test)
   {
     xi <- x.test[i, ]
     foo <- exp( sum(xi*asg))
-   
-      if (is.infinite(foo)) {
-        pi.hat[i] = 1;
-      } else {
-        pi.hat[i] = foo/(1 + foo);
-      }
+    pi.hat[i] = foo/(1 + foo)
 
     st.err <- sqrt((pi.hat[i] * (1 - pi.hat[i]) )^2 * xi %*% ebs %*% xi/n)
-    st.err.lug <- sqrt((pi.hat[i] * (1 - pi.hat[i]) )^2 * xi %*% ebs %*% xi/n)
     lb[i] <- pi.hat[i] - qnorm((1 - (1-qlev)/2)) * st.err
-    lb.lug[i] <- pi.hat[i] - qnorm((1 - (1-qlev)/2)) * st.err.lug
   }
 
   misclass <- numeric(length = length(cutoffs))
