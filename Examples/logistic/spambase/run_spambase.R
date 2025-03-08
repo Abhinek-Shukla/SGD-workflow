@@ -1,4 +1,4 @@
-set.seed(10)
+set.seed(1)
 library(MASS)
 library(doParallel)
 library(foreach)

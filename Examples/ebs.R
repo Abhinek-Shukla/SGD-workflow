@@ -17,7 +17,7 @@ opt_beta_fn <- function(alpha, m)
 
 ## EBS estimator function
 ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1, 
-                           bet_typ = 1, lug = 1)
+                           bet_typ = 1, lug = 1, poly = 0)
 {
 	n    <- nrow(sgd)  
 	nparm <- ncol(sgd)
@@ -28,11 +28,16 @@ ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1,
 	if(bet_typ == 2){ bet <- (2*alp + 1)/3}
 	if(bet_typ == 3){ bet <- opt_beta_fn(alp, n)}
 
+	if(poly == 1){
+	  #polynomial batching
+	  bn <- floor(cns * n^bet)
+	  an <- floor(n/bn) 	
+	}else {
 	#Smart batching
 	two_seq <- 2^(seq(10:40))
 	bn      <- min(two_seq[two_seq >= cns * n^bet]) 
 	an      <- floor(n/bn) 	
-
+}
 	# EBS is simple call to mcse.multi
 	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov
 
