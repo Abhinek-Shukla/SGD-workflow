@@ -10,18 +10,18 @@ source("./../ebs.R")
 source("./../ibs.R")
 source("./../misc.R")
 
-
-# p = 5 runs   
+# 
+# # p = 5 runs
 # max_sam <- 5e6
 # nparm <- 5
-# ncores <- 60
-# Reps <- 1000
-
+# ncores <- 5
+# Reps <- 5
+# 
 # rho <- 0.5
 # foo <- X_mat(nparm = nparm, rho = rho)
 # equiv_mat <- foo[[1]]
 # toep_mat <- foo[[2]]
-
+# 
 # lad_reps(max_sam = max_sam, nparm = nparm, Rep = Reps, ncores_par = ncores,
 #          nam_matrix = "indep", cns = .1, cns1 = 1)
 # lad_reps(max_sam = max_sam, A = toep_mat,  nparm = nparm, Rep = Reps, ncores_par = ncores,
@@ -32,7 +32,7 @@ source("./../misc.R")
 # p = 20 runs   
 max_sam <- 5e6
 nparm <- 20
-ncores <- 60
+ncores <- 50
 Reps <- 1000
 
 rho <- 0.5
