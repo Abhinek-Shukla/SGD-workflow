@@ -99,7 +99,42 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
                                  dim = c(length(sam_siz), Rep, cns_ln),
                                  dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
   
-  # For EBS with Lugsail
+   # For EBS estimator with proposed batching
+  volm_ebs         <- array(rep(0, cns_ln * Rep * length(sam_siz)), 
+                            dim = c(length(sam_siz), Rep, cns_ln), 
+                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  marg_volm_ebs    <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                            dim = c(length(sam_siz), Rep, cns_ln),
+                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))  
+  cover_ebs        <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                            dim = c(length(sam_siz), Rep, cns_ln),
+                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln)) 
+  marg_sim_cov_ebs <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                            dim = c(length(sam_siz), Rep, cns_ln),
+                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  forb_ebs         <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                            dim = c(length(sam_siz), Rep, cns_ln),
+                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  
+  # For EBS with Lugsail with polynomial batching
+  volm_ebs_ls_poly         <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                                    dim = c(length(sam_siz), Rep, cns_ln),
+                                    dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  marg_volm_ebs_ls_poly    <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                                    dim = c(length(sam_siz), Rep, cns_ln),
+                                    dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  cover_ebs_ls_poly        <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                                    dim = c(length(sam_siz), Rep, cns_ln), 
+                                    dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  marg_sim_cov_ebs_ls_poly <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                                    dim = c(length(sam_siz), Rep, cns_ln),
+                                    dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  forb_ebs_ls_poly         <- array(rep(0, cns_ln * Rep * length(sam_siz)),
+                                    dim = c(length(sam_siz), Rep, cns_ln), 
+                                    dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
+  
+  
+  # For EBS with Lugsail with smart batching
   volm_ebs_ls         <- array(rep(0, cns_ln * Rep * length(sam_siz)),
                                dim = c(length(sam_siz), Rep, cns_ln),
                                dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
@@ -116,23 +151,6 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
                                dim = c(length(sam_siz), Rep, cns_ln), 
                                dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
   
-  # For EBS estimator with proposed batching
-  volm_ebs         <- array(rep(0, cns_ln * Rep * length(sam_siz)), 
-                            dim = c(length(sam_siz), Rep, cns_ln), 
-                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
-  marg_volm_ebs    <- array(rep(0, cns_ln * Rep * length(sam_siz)),
-                            dim = c(length(sam_siz), Rep, cns_ln),
-                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))  
-  cover_ebs        <- array(rep(0, cns_ln * Rep * length(sam_siz)),
-                            dim = c(length(sam_siz), Rep, cns_ln),
-                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln)) 
-  marg_sim_cov_ebs <- array(rep(0, cns_ln * Rep * length(sam_siz)),
-                            dim = c(length(sam_siz), Rep, cns_ln),
-                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
-  forb_ebs         <- array(rep(0, cns_ln * Rep * length(sam_siz)),
-                            dim = c(length(sam_siz), Rep, cns_ln),
-                            dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln))
-
   # For relative volume comparisons
   ratio_ibs_ebs_poly <- array(rep(0, nparm * cns_ln * Rep * length(sam_siz)),
                             dim = c(length(sam_siz), Rep, cns_ln, nparm), 
@@ -140,6 +158,9 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
   ratio_ibs_ebs      <- array(rep(0, nparm * cns_ln * Rep * length(sam_siz)),
                             dim = c(length(sam_siz), Rep, cns_ln, nparm), 
                             dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln, 1 : nparm))
+  ratio_ibs_ebs_ls_poly   <- array(rep(0, nparm * cns_ln * Rep * length(sam_siz)),
+                                   dim = c(length(sam_siz), Rep, cns_ln, nparm), 
+                                   dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln, 1 : nparm))
   ratio_ibs_ebs_ls   <- array(rep(0, nparm * cns_ln * Rep * length(sam_siz)),
                             dim = c(length(sam_siz), Rep, cns_ln, nparm), 
                             dimnames = list(sam_siz, 1 : Rep, 1 : cns_ln, 1 : nparm))
@@ -157,7 +178,8 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
                           .multicombine=TRUE, .init = list(list(), list(), list(),list(), 
                           list(), list(), list(), list(), list(),list(), list(), list(), 
                           list(), list(), list(), list(), list(),list(), list(), list(), 
-                          list(), list(), list(), list(), list(), list(), list(), list() )) %dopar% 
+                          list(), list(), list(), list(), list(), list(), list(), list(),
+                          list(), list(), list(), list(), list(), list())) %dopar% 
   {
     # Obtain the full SGD process
     sg_ct_full <- linear_sgd(n = n, burn_in = burn_in, parm = parm, 
@@ -242,8 +264,26 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
                                                <= parm &  tmp_ebs[, 2] >= parm) == nparm)
           marg_volm_ebs[smpl, cn, count]    <- (prod(leng_ebs) / volm_ebs[smpl, cn, count])^(1 / nparm)
           
+          # EBS Lugsail calculation with polynomial batching
+          ebs_mean_poly                      <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2, poly = 1)
           
-          # EBS Lugsail calculation 
+          forb_ebs_ls_poly[smpl, cn, count]  <- norm(ebs_mean_poly - sigm, "F")/ norm(sigm, "F")
+          volm_ebs_ls_poly[smpl, cn, count]  <- tmp_vol * (det(ebs_mean_poly) ) ^ (1 / 2)
+          cover_ebs_ls_poly[smpl, cn, count] <- as.numeric(sam_siz[smpl]  * t(asg - parm) 
+                                                      %*% qr.solve(ebs_mean_poly) %*% 
+                                                        (asg - parm) <= crt_val)
+          
+          tmp_ebs_ls_poly                           <- new.sim.int(ebs_mean_poly/sam_siz[smpl],
+                                                              conf = 0.95, center = asg)$ints
+          leng_ebs_ls_poly                          <- tmp_ebs_ls_poly[, 2] - tmp_ebs_ls_poly[, 1]
+          marg_sim_cov_ebs_ls_poly[smpl, cn, count] <- as.numeric(sum(tmp_ebs_ls_poly[, 1] <= parm 
+                                                                 &  tmp_ebs_ls_poly[, 2] >= parm) == nparm)
+          marg_volm_ebs_ls_poly[smpl, cn, count]    <- (prod(leng_ebs_ls_poly) / volm_ebs_ls_poly[smpl,
+                                                                                   cn, count])^(1/nparm)          
+          
+          ratio_ibs_ebs_ls_poly[smpl, cn, count, ] <- leng_ibs/leng_ebs_ls_poly
+          
+          # EBS Lugsail calculation with proposed batching
           ebs_mean                      <- ebs_batch_mean(sg_ct, alp, cns[mk], bt_typ, 2)
           
           forb_ebs_ls[smpl, cn, count]  <- norm(ebs_mean - sigm, "F")/ norm(sigm, "F")
@@ -277,23 +317,29 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
       forb_ebs[, cn, ], 
       volm_ebs[, cn, ],  
       cover_ebs[, cn, ], 
+      forb_ebs_ls_poly[, cn, ], 
+      volm_ebs_ls_poly[, cn, ],  
+      cover_ebs_ls_poly[, cn, ],  
       forb_ebs_ls[, cn, ], 
       volm_ebs_ls[, cn, ],  
       cover_ebs_ls[, cn, ],  
       ratio_ibs_ebs_poly[, cn, , ], 
       ratio_ibs_ebs[, cn, , ], 
+      ratio_ibs_ebs_ls_poly[, cn, , ], 
       ratio_ibs_ebs_ls[, cn, , ], 
       ratio_ebs_ls_ebs[, cn, , ], 
       marg_sim_cov_orc[cn, ], 
       marg_sim_cov_ibs[cn, ], 
       marg_sim_cov_ebs_poly[, cn, ],
       marg_sim_cov_ebs[, cn, ], 
+      marg_sim_cov_ebs_ls_poly[, cn, ], 
       marg_sim_cov_ebs_ls[, cn, ], 
       volm_orc[cn, ], 
       marg_volm_orc[cn, ], 
       marg_volm_ibs[cn, ], 
       marg_volm_ebs_poly[, cn, ],
       marg_volm_ebs[, cn, ], 
+      marg_volm_ebs_ls_poly[, cn, ],
       marg_volm_ebs_ls[, cn, ])
     
   }
@@ -310,35 +356,43 @@ linear_reps <- function(max_sam = 1e5, Rep = 1, nparm = 5,
     forb_ebs[, k, ]              <- final_values[[8]][[k]]
     volm_ebs[, k, ]              <- final_values[[9]][[k]]
     cover_ebs[, k, ]             <- final_values[[10]][[k]]
-    forb_ebs_ls[, k, ]           <- final_values[[11]][[k]]
-    volm_ebs_ls[, k, ]           <- final_values[[12]][[k]]
-    cover_ebs_ls[, k, ]          <- final_values[[13]][[k]]
-    ratio_ibs_ebs_poly[, k, , ]  <- final_values[[14]][[k]]
-    ratio_ibs_ebs[, k, , ]       <- final_values[[15]][[k]]
-    ratio_ibs_ebs_ls[, k, , ]    <- final_values[[16]][[k]]
-    ratio_ebs_ls_ebs[, k, , ]    <- final_values[[17]][[k]]
-    marg_sim_cov_orc[k, ]        <- final_values[[18]][[k]]
-    marg_sim_cov_ibs[k, ]        <- final_values[[19]][[k]]
-    marg_sim_cov_ebs_poly[, k, ] <- final_values[[20]][[k]]
-    marg_sim_cov_ebs[, k, ]      <- final_values[[21]][[k]]
-    marg_sim_cov_ebs_ls[, k, ]   <- final_values[[22]][[k]]
-    volm_orc[k, ]                <- final_values[[23]][[k]]
-    marg_volm_orc[k, ]           <- final_values[[24]][[k]]
-    marg_volm_ibs[k, ]           <- final_values[[25]][[k]]
-    marg_volm_ebs_poly[, k, ]    <- final_values[[26]][[k]]
-    marg_volm_ebs[, k, ]         <- final_values[[27]][[k]]
-    marg_volm_ebs_ls[, k, ]      <- final_values[[28]][[k]]
+    forb_ebs_ls_poly[, k, ]           <- final_values[[11]][[k]]
+    volm_ebs_ls_poly[, k, ]           <- final_values[[12]][[k]]
+    cover_ebs_ls_poly[, k, ]          <- final_values[[13]][[k]]
+    forb_ebs_ls[, k, ]           <- final_values[[14]][[k]]
+    volm_ebs_ls[, k, ]           <- final_values[[15]][[k]]
+    cover_ebs_ls[, k, ]          <- final_values[[16]][[k]]
+    ratio_ibs_ebs_poly[, k, , ]  <- final_values[[17]][[k]]
+    ratio_ibs_ebs[, k, , ]       <- final_values[[18]][[k]]
+    ratio_ibs_ebs_ls_poly[, k, , ]    <- final_values[[19]][[k]]
+    ratio_ibs_ebs_ls[, k, , ]    <- final_values[[20]][[k]]
+    ratio_ebs_ls_ebs[, k, , ]    <- final_values[[21]][[k]]
+    marg_sim_cov_orc[k, ]        <- final_values[[22]][[k]]
+    marg_sim_cov_ibs[k, ]        <- final_values[[23]][[k]]
+    marg_sim_cov_ebs_poly[, k, ] <- final_values[[24]][[k]]
+    marg_sim_cov_ebs[, k, ]      <- final_values[[25]][[k]]
+    marg_sim_cov_ebs_ls_poly[, k, ]   <- final_values[[26]][[k]]
+    marg_sim_cov_ebs_ls[, k, ]   <- final_values[[27]][[k]]
+    volm_orc[k, ]                <- final_values[[28]][[k]]
+    marg_volm_orc[k, ]           <- final_values[[29]][[k]]
+    marg_volm_ibs[k, ]           <- final_values[[30]][[k]]
+    marg_volm_ebs_poly[, k, ]    <- final_values[[31]][[k]]
+    marg_volm_ebs[, k, ]         <- final_values[[32]][[k]]
+    marg_volm_ebs_ls_poly[, k, ]      <- final_values[[33]][[k]]
+    marg_volm_ebs_ls[, k, ]      <- final_values[[34]][[k]]
   }
   
   
   
   fil_nam <- paste("out/linear_", nam_matrix, "_n_", n, "_dim_", nparm,
                    ".RData", sep = "")
-  save(marg_sim_cov_orc, marg_sim_cov_ibs, marg_sim_cov_ebs_poly, marg_sim_cov_ebs, marg_sim_cov_ebs_ls,
-       volm_orc, marg_volm_orc, marg_volm_ibs, marg_volm_ebs_poly, marg_volm_ebs, marg_volm_ebs_ls, 
-       ratio_ibs_ebs_poly, ratio_ibs_ebs, ratio_ibs_ebs_ls, ratio_ebs_ls_ebs, cover_orc, cover_ibs,
-       cover_ebs_poly, cover_ebs, cover_ebs_ls, volm_ibs, volm_ebs_poly, volm_ebs, volm_ebs_ls, forb_ibs, 
-       forb_ebs_poly, forb_ebs,
+  save(marg_sim_cov_orc, marg_sim_cov_ibs, marg_sim_cov_ebs_poly, marg_sim_cov_ebs, marg_sim_cov_ebs_ls_poly, marg_sim_cov_ebs_ls,
+       volm_orc, marg_volm_orc, marg_volm_ibs, marg_volm_ebs_poly, marg_volm_ebs, marg_volm_ebs_ls_poly, marg_volm_ebs_ls, 
+       ratio_ibs_ebs_poly, ratio_ibs_ebs, ratio_ibs_ebs_ls_poly,  ratio_ibs_ebs_ls, 
+       ratio_ebs_ls_ebs, cover_orc, cover_ibs,
+       cover_ebs_poly, cover_ebs, cover_ebs_ls_poly, cover_ebs_ls, volm_ibs, volm_ebs_poly, volm_ebs,volm_ebs_ls_poly, 
+       volm_ebs_ls, forb_ibs, 
+       forb_ebs_poly, forb_ebs, forb_ebs_ls_poly, 
        forb_ebs_ls, file = fil_nam)
 }
 
