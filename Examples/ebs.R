@@ -39,7 +39,10 @@ ebs_batch_mean <- function(sgd, alp = 0.51, cns = 0.1,
 	an      <- floor(n/bn) 	
 }
 	# EBS is simple call to mcse.multi
-	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov
+	
+	if (lug == 1){
+	ebs <- mcse.multi(sgd, size = bn, r = lug, adjust = FALSE)$cov
+	}else {	ebs <- mcse.multi(sgd, size = bn, r = lug)$cov}
 
 	# Adjustment for remaining samples (an*bn to n) since mcse.multi chops the end
 	if(an*bn + 1 < n)	
