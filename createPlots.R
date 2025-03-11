@@ -340,9 +340,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 pdf("plots/Lmcover_dim5.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
@@ -353,8 +353,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -367,13 +367,13 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
 pdf("plots/Lsimul_dim5.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -382,8 +382,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -398,8 +398,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -531,9 +531,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 
 pdf("plots/Lmcover_dim5_toep.pdf", height = 5.5, width = 6)
@@ -545,8 +545,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -559,13 +559,13 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
 pdf("plots/Lsimul_dim5_toep.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -574,8 +574,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -590,8 +590,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -725,9 +725,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 
 pdf("plots/Lmcover_dim5_equiv.pdf", height = 5.5, width = 6)
@@ -739,8 +739,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -753,13 +753,13 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
 pdf("plots/Lsimul_dim5_equiv.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -768,8 +768,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -784,8 +784,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -917,9 +917,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 pdf("plots/Lmcover_dim20.pdf", height = 5.5, width = 6)
 plot(sq_n, cover_all[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Multivariate Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1, -.2)))
@@ -931,14 +931,14 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
 
 pdf("plots/Lsimul_dim20.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -947,8 +947,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -961,8 +961,8 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 pdf("plots/Lrelvol_dim20.pdf", height = 5.5, width = 6)
@@ -975,8 +975,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1173,9 +1173,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 
 pdf("plots/Ladmcover_dim20.pdf", height = 5.5, width = 6)
@@ -1207,7 +1207,7 @@ dev.off()
 
 
 pdf("plots/Ladsimul_dim20.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -1368,9 +1368,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 
 pdf("plots/Ladmcover_dim20_toep.pdf", height = 5.5, width = 6)
@@ -1402,7 +1402,7 @@ dev.off()
 
 
 pdf("plots/Ladsimul_dim20_toep.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
@@ -1564,9 +1564,9 @@ names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("LS c = 0.1, ", beta[3])))
 
 # constant c = 1 is not needed and, beta2 and beta3 are  not needed
-index <- c(1, 2, 3, 6, 9, 12)
+index <- c(1, 2, 6, 3, 12, 9)
 
-names_var2 <- c("Oracle", "IBS", "EBS-poly", "EBS", "Lugsail-EBS-poly", "Lugsail-EBS")
+names_var2 <- c("Oracle", "IBS", "EBS", "EBS-poly", "L-EBS", "L-EBS-poly")
 
 
 pdf("plots/Ladmcover_dim20_equiv.pdf", height = 5.5, width = 6)
@@ -1598,7 +1598,7 @@ dev.off()
 
 
 pdf("plots/Ladsimul_dim20_equiv.pdf", height = 5.5, width = 6)
-plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(cover_all[, index], 1)))
+plot(sq_n, marg_covg[, 1], type = "n", lwd = 2, lty = 6, xlab = "Log Sample Size", ylab = "Simultaneous Marginal Coverage Rate", col = "red", ylim = range(c(marg_covg[, index], 1)))
 for(k in index)
 {
   lines(sq_n, marg_covg[, k],  lwd = 2, col = col_choic[k], lty = lin_typ[k], type = "b")
