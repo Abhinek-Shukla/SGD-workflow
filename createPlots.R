@@ -1187,8 +1187,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1201,8 +1201,8 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1216,8 +1216,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1232,8 +1232,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1382,8 +1382,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1396,8 +1396,8 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1411,8 +1411,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1427,8 +1427,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1578,8 +1578,8 @@ for(k in index)
   arrows(sq_n, cover_all[, k], sq_n, cover_all[, k] - sd_cover[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1592,8 +1592,8 @@ for(k in index)
   arrows(sq_n, frob_all[, k], sq_n, frob_all[, k] - sd_forb[ ,k], length = 0.05, angle=90, col = col_choic[k], lwd = 2, lty = 1 )   
 }
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1607,8 +1607,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
@@ -1623,8 +1623,8 @@ for(k in index)
 }
 
 legend("bottom", legend = names_var2,
-       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=1,
-       box.lty=0, box.lwd=1, ncol = 2)
+       col = col_choic[index], lwd = 2, lty = lin_typ[index], cex=0.8,
+       box.lty=0, box.lwd=1, ncol = 3)
 dev.off()
 
 
