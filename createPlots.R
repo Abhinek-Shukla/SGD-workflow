@@ -327,8 +327,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -518,8 +518,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -712,8 +712,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -904,8 +904,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -1160,8 +1160,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -1355,8 +1355,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
@@ -1551,8 +1551,8 @@ for(n in 1 : length(sq_n))
 ###########################################################
 sq_n <- log10(c(5e4, 1e5, 2e5, 5e5, 8e5,  1e6, 5e6))
 
-col_choic <- c("red", "steelblue", "brown", "tomato", "green", "brown", "tomato",
-               "green", "brown", "tomato", "green", "brown", "tomato", "green")
+col_choic <- c("red", "steelblue", "olivedrab", "tomato", "green", "brown", "tomato",
+               "green", "olivedrab", "tomato", "green", "brown", "tomato", "green")
 lin_typ <- c(6, 3, rep(1,3), rep(2,3), rep(3,3), rep(4,3))
 names_var <- c("Oracle", "IBS", expression(paste("Pc = 0.1, ", beta[1])),
                expression(paste("Pc = 0.1, ", beta[2])), expression(paste("Pc = 0.1, ", beta[3])), 
